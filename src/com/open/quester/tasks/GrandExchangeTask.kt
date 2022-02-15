@@ -30,7 +30,7 @@ class GrandExchangeTask(private val itemsRequired: List<ItemRequirementCondition
         }
     }
 
-    fun complete() : SetupResult {
+    fun complete(): SetupResult {
         if (!grandExchangeArea.contains(Players.local())) {
             walkToGrandExchange()
             return SetupResult.UNKNOWN
@@ -103,61 +103,61 @@ class GrandExchangeTask(private val itemsRequired: List<ItemRequirementCondition
                 }
                 if (offerCondition == null) {
                     logger.info("None found for ${co.itemName()}")
-                }else if (GrandExchange.collectOffer(co)) {
+                } else if (GrandExchange.collectOffer(co)) {
                     offerCondition.chosenRequirement!!.hasRequirement = true
                     logger.info("Completed offer ${co.itemName()}")
                 } else {
                     logger.info("Failed to collect offer ${co.itemName()}")
+                }
             }
         }
     }
-}
 
-private fun calculateCheapestItems() {
-    itemsRequired.forEach { ir ->
-        if (ir.chosenRequirement != null) {
-            return@forEach
+    private fun calculateCheapestItems() {
+        itemsRequired.forEach { ir ->
+            if (ir.chosenRequirement != null) {
+                return@forEach
+            }
+            val bestOne = ir.itemRequirements.minByOrNull { r -> prices[r.name] ?: Int.MAX_VALUE }
+
+            if (bestOne == null) {
+                ScriptManager.stop()
+                return
+            }
+            ir.chosenRequirement = bestOne
+            logger.info("Set best requirement to ${ir.chosenRequirement!!.name}")
         }
-        val bestOne = ir.itemRequirements.minByOrNull { r -> prices[r.name] ?: Int.MAX_VALUE }
+        bestItemsSelected = true
+    }
 
-        if (bestOne == null) {
+
+    private fun withdrawCoins(): Boolean {
+        if (!Bank.opened() && !Bank.open()) {
+            return false
+        }
+
+        val bankStack = Bank.stream().name("Coins").first()
+        if (bankStack == Item.Nil) {
+            logger.info("No coins, sadness :(")
             ScriptManager.stop()
-            return
+            return false
         }
-        ir.chosenRequirement = bestOne
-        logger.info("Set best requirement to ${ir.chosenRequirement!!.name}")
-    }
-    bestItemsSelected = true
-}
 
-
-private fun withdrawCoins(): Boolean {
-    if (!Bank.opened() && !Bank.open()) {
+        // TODO Use calculated price from high.
+        if (Bank.withdraw("Coins", 0) && Condition.wait { Inventory.stream().name("Coins").count() > 0 }) {
+            logger.info("Withdrawed coins")
+            Bank.close()
+            return true
+        }
         return false
     }
 
-    val bankStack = Bank.stream().name("Coins").first()
-    if (bankStack == Item.Nil) {
-        logger.info("No coins, sadness :(")
-        ScriptManager.stop()
-        return false
+    private fun walkToGrandExchange() {
+        Movement.builder(Tile(3168, 3487, 0))// TODO Randomize more
+            .setWalkUntil {
+                grandExchangeArea.contains(Players.local()) &&
+                        Npcs.stream().action("Exchange").viewable().first() != Npc.Nil
+            }
+            .move()
     }
-
-    // TODO Use calculated price from high.
-    if (Bank.withdraw("Coins", 0) && Condition.wait { Inventory.stream().name("Coins").count() > 0 }) {
-        logger.info("Withdrawed coins")
-        Bank.close()
-        return true
-    }
-    return false
-}
-
-private fun walkToGrandExchange() {
-    Movement.builder(Tile(3168, 3487, 0))// TODO Randomize more
-        .setWalkUntil {
-            grandExchangeArea.contains(Players.local()) &&
-                    Npcs.stream().action("Exchange").viewable().first() != Npc.Nil
-        }
-        .move()
-}
 }

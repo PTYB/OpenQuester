@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 class XMarksTheSpotTests {
-    
+
     @ParameterizedTest
     @MethodSource("questStates")
     fun questState(varpbit: Int, expectedState: Int) {

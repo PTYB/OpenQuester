@@ -9,8 +9,10 @@ import org.powbot.mobile.script.ScriptManager
 import java.util.logging.Level
 import java.util.logging.Logger
 
-open class SetupTask(private val itemRequirements:List<ItemRequirementCondition>,
-                     private val skillRequirement: List<SkillRequirement>) {
+open class SetupTask(
+    private val itemRequirements: List<ItemRequirementCondition>,
+    private val skillRequirement: List<SkillRequirement>
+) {
     private var logger: Logger = Logger.getLogger(this.javaClass.simpleName)
     private var checkedInventory: Boolean = false
     private var checkedBank: Boolean = false
@@ -88,7 +90,7 @@ open class SetupTask(private val itemRequirements:List<ItemRequirementCondition>
         logger.log(Level.INFO, "---- Done checking bank. ----")
     }
 
-    protected open fun openBank() {
+    private fun openBank() {
         val nearestBankObject = Bank.nearest()
         if (Tile.Nil === nearestBankObject || !nearestBankObject.tile().matrix().onMap()) {
             logger.log(Level.INFO, "Moving to bank.")

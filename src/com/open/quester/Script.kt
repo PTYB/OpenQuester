@@ -4,6 +4,7 @@ import com.open.quester.common.base.BaseQuest
 import com.open.quester.models.QuestInformation
 import com.open.quester.models.QuestRunnerState
 import com.open.quester.models.SetupResult
+import com.open.quester.quest.romeoandjuliet.RomeoAndJuliet
 import com.open.quester.quest.runemysteries.RuneMysteries
 import com.open.quester.quest.xmarksthespot.XMarksTheSpot
 import com.open.quester.tasks.GrandExchangeTask
@@ -27,8 +28,8 @@ import java.util.logging.Logger
     [
         ScriptConfiguration(
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
-            "Rune Mysteries",
-            ["Rune Mysteries", "X Marks The Spot"]
+            "Romeo & Juliet",
+            ["Romeo & Juliet", "Rune Mysteries", "X Marks The Spot"]
         ),
         ScriptConfiguration(
             "Food", "Food you wish to eat if required", OptionType.STRING,
@@ -88,7 +89,7 @@ class Script : AbstractScript() {
                 }
             }
             QuestRunnerState.GRAND_EXCHANGE -> {
-                when(grandExchangeTask.complete()) {
+                when (grandExchangeTask.complete()) {
                     SetupResult.UNKNOWN -> {}// DO Nothing
                     SetupResult.INCOMPLETE -> {} // TODO Might not need state
                     SetupResult.COMPLETE -> state = QuestRunnerState.QUESTING
@@ -133,7 +134,7 @@ class Script : AbstractScript() {
             Varpbits.PLAGUE_CITY -> TODO()
             Varpbits.PRIEST_IN_PERIL -> TODO()
             Varpbits.REGICIDE -> TODO()
-            Varpbits.ROMEO_JULIET -> TODO()
+            Varpbits.ROMEO_JULIET -> return RomeoAndJuliet(questInformation)
             Varpbits.RUNE_MYSTERIES -> return RuneMysteries(questInformation)
             Varpbits.SEA_SLUG -> TODO()
             Varpbits.SHEEP_SHEARER -> TODO()
@@ -153,7 +154,7 @@ class Script : AbstractScript() {
         val questName = getOption<String>("Quest Name")!!
         val food = getOption<String>("Food")!!
         val hasRequirements = getOption<Boolean>("HasRequirements")!!
-        val information = Varpbits.values().first { it.questName == questName}
+        val information = Varpbits.values().first { it.questName == questName }
 
         // TODO Get half names etc for food
         questInformation = QuestInformation(information, arrayOf(food), null, null, hasRequirements = hasRequirements)
@@ -173,8 +174,8 @@ class Script : AbstractScript() {
             .build()
         addPaint(p)
     }
-
 }
+
 fun main(args: Array<String>) {
     ScriptUploader().uploadAndStart("Open Quester", "", "emulator-5554", true, false)
 }

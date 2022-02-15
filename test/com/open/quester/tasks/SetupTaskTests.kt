@@ -156,9 +156,6 @@ class SetupTasksTestHarness(
         return checkSkillRequirements()
     }
 
-    override fun openBank() {
-    }
-
     override fun bankOpened(): Boolean {
         return true
     }
