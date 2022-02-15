@@ -35,7 +35,7 @@ abstract class BaseQuestStep {
      *
      * @return result status of running this step.
      */
-    protected abstract fun run()
+    abstract fun run()
 
     /**
      * Do things required to be done on initialization

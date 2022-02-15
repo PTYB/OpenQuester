@@ -6,6 +6,7 @@ import com.open.quester.models.QuestRunnerState
 import com.open.quester.models.SetupResult
 import com.open.quester.quest.romeoandjuliet.RomeoAndJuliet
 import com.open.quester.quest.runemysteries.RuneMysteries
+import com.open.quester.quest.sheepshearer.SheepShearer
 import com.open.quester.quest.xmarksthespot.XMarksTheSpot
 import com.open.quester.tasks.GrandExchangeTask
 import com.open.quester.tasks.SetupTask
@@ -22,14 +23,13 @@ import java.util.logging.Logger
     version = "1.0.0",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
-    priv = true,
 )
 @ScriptConfiguration.List(
     [
         ScriptConfiguration(
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
             "Romeo & Juliet",
-            ["Romeo & Juliet", "Rune Mysteries", "X Marks The Spot"]
+            ["Romeo & Juliet", "Rune Mysteries", "Sheep Shearer", "X Marks The Spot"]
         ),
         ScriptConfiguration(
             "Food", "Food you wish to eat if required", OptionType.STRING,
@@ -137,7 +137,7 @@ class Script : AbstractScript() {
             Varpbits.ROMEO_JULIET -> return RomeoAndJuliet(questInformation)
             Varpbits.RUNE_MYSTERIES -> return RuneMysteries(questInformation)
             Varpbits.SEA_SLUG -> TODO()
-            Varpbits.SHEEP_SHEARER -> TODO()
+            Varpbits.SHEEP_SHEARER -> return SheepShearer(questInformation)
             Varpbits.THE_KNIGHTS_SWORD -> TODO()
             Varpbits.THE_RESTLESS_GHOST -> TODO()
             Varpbits.TREE_GNOME_VILLAGE -> TODO()
