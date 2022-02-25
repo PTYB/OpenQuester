@@ -13,14 +13,15 @@ import com.open.quester.models.QuestRequirements
 import com.open.quester.quest.romeoandjuliet.RomeoAndJulietConstants.ITEM_CADAVA_POTION
 import org.powbot.api.rt4.Inventory
 import com.open.quester.quest.romeoandjuliet.RomeoAndJulietConstants as Constants
+import com.open.quester.quest.Constants as QuestConstants
 
 class RomeoAndJuliet(information: QuestInformation) : BaseQuest(information) {
 
     private val cadavaRequirement = ItemRequirementCondition(ItemRequirement(Constants.ITEM_CADAVA_BERRIES, false))
 
-    private val cadavaBank = BankStep(listOf(cadavaRequirement), com.open.quester.quest.Constants.BANK_LUMBRIDGE) {
+    private val cadavaBank = BankStep(listOf(cadavaRequirement), QuestConstants.BANK_LUMBRIDGE, information, {
         Inventory.stream().name(Constants.ITEM_CADAVA_BERRIES).count() < 1
-    }
+    })
 
     private var startQuestStep = QuestTaskList(
         cadavaBank, SimpleConversationStep(

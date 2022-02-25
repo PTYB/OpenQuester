@@ -33,9 +33,9 @@ class XMarksTheSpot(information: QuestInformation) : BaseQuest(information) {
         NAME_VEOS, TILE_LUMB_VEOS, VEOS_START_QUEST,
         "Starting Quest"
     )
-    private val spadeBank = BankStep(listOf(spadeCondition), BANK_LUMBRIDGE) {
+    private val spadeBank = BankStep(listOf(spadeCondition), BANK_LUMBRIDGE, information, {
         Inventory.stream().name(ITEM_SPADE).count() < 1
-    }
+    })
     private val startQuestWithSpade = QuestTaskList(spadeBank, startQuestStep)
     private val digAtBobs = DigStep(TILE_DIG_BOBS, "Digging at Bob's")
     private val digAtCastle = DigStep(TILE_DIG_CASTLE, "Digging at castle")

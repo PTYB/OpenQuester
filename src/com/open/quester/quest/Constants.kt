@@ -6,4 +6,5 @@ object Constants {
     val ITEM_SPADE = "Spade"
 
     val BANK_LUMBRIDGE = Tile(3208, 3218, 2)
+    val BANK_EAST_FALADOR = Tile(3013, 3356)
 }

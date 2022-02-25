@@ -1,35 +1,67 @@
 package com.open.quester.common
 
 import com.open.quester.common.base.BaseQuestStep
+import com.open.quester.models.ItemRequirement
 import com.open.quester.models.ItemRequirementCondition
+import com.open.quester.models.QuestInformation
 import com.open.quester.models.SetupResult
 import com.open.quester.tasks.SetupTask
 import org.powbot.api.Tile
+import org.powbot.api.requirement.RunePowerRequirement
 import org.powbot.api.rt4.*
 import org.powbot.mobile.script.ScriptManager
 import java.util.concurrent.Callable
-import kotlin.streams.toList
 
 class BankStep(
-    val conditions: List<ItemRequirementCondition>,
+    var conditions: List<ItemRequirementCondition>,
     val bankTile: Tile,
-    val shouldExecute: Callable<Boolean>? = null
+    val questInformation: QuestInformation,
+    val shouldExecute: Callable<Boolean>? = null,
+    val combat: Boolean = false,
+    val foodRequired: Boolean = false
 ) : BaseQuestStep() {
 
     private var setup = false
     private val setupTask: SetupTask by lazy {
+        logger.info("Creating setup task")
         SetupTask(conditions, listOf())
     }
     private var itemsToKeep = arrayOf<String>()
 
     var hasBeenSetup = false
 
-    init {
-        setup = conditions.all { it.chosenRequirement != null }
+    private fun calculateInventory() {
+        val updatedConditions = conditions.toMutableList()
+        val calculatedItemsToKeep = conditions.map { it.chosenRequirement!!.name }.toMutableList()
+        if (combat && questInformation.spell != null) {
+            addMagicReq(updatedConditions, calculatedItemsToKeep)
+        }
+        itemsToKeep = calculatedItemsToKeep.toList().toTypedArray()
+        conditions = updatedConditions.toList()
+        logger.info("Updated calculated inventory")
+    }
+
+    private fun addMagicReq(conditions: MutableList<ItemRequirementCondition>, itemsToKeep: MutableList<String>): MutableList<ItemRequirementCondition> {
+        questInformation.spell!!.requirements.forEach {
+            if (it is RunePowerRequirement) {
+                val runeName = it.power.getFirstRune().name.lowercase() + " rune"
+                logger.info("Checking rune ${runeName}.")
+                itemsToKeep.add(runeName)
+                val itemRequirement = ItemRequirement(
+                    runeName, false, it.amount * 100,
+                    arrayOf(), true
+                )
+                val condition = ItemRequirementCondition(itemRequirement)
+                condition.chosenRequirement = itemRequirement
+                conditions.add(condition)
+                logger.info("Added requirement for ${it.amount*100} ${runeName}.")
+            }
+        }
+        return conditions
     }
 
     override fun shouldExecute(): Boolean {
-        return !setup && (shouldExecute == null || shouldExecute.call())
+        return !hasBeenSetup && (shouldExecute == null || shouldExecute.call())
     }
 
     override fun run() {
@@ -79,7 +111,7 @@ class BankStep(
     /**
      *   Checks if it has all the requirements already
      */
-    private fun hasRequirements() : Boolean {
+    private fun hasRequirements(): Boolean {
         return setup && conditions.all {
             if (it.chosenRequirement == null) {
                 return false
@@ -95,6 +127,7 @@ class BankStep(
      *  @return true if we successfully setup
      */
     private fun setupConditions(): Boolean {
+        calculateInventory()
         return when (setupTask.complete()) {
             SetupResult.FAILURE, SetupResult.INCOMPLETE -> {
                 ScriptManager.stop()
@@ -104,7 +137,6 @@ class BankStep(
             SetupResult.UNKNOWN -> false
             SetupResult.COMPLETE -> {
                 setup = true
-                itemsToKeep = conditions.stream().map { it.chosenRequirement!!.name }.toList().toTypedArray()
                 true
             }
         }
