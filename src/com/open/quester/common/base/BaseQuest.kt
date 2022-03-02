@@ -5,7 +5,7 @@ import com.open.quester.models.QuestRequirements
 import org.powbot.api.event.InventoryChangeEvent
 import org.powbot.api.event.MessageEvent
 import org.powbot.api.rt4.Varpbits
-import org.powbot.mobile.drawing.Graphics
+import org.powbot.mobile.drawing.Rendering
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -59,7 +59,7 @@ abstract class BaseQuest(protected val information: QuestInformation) {
      */
     abstract fun getQuestStep(stepPosition: Int): BaseQuestStep?
 
-    open fun draw(g: Graphics) {
+    open fun draw(g: Rendering) {
         currentQuestStep?.draw(g)
     }
 

@@ -7,6 +7,7 @@ import com.open.quester.models.SetupResult
 import com.open.quester.quest.romeoandjuliet.RomeoAndJuliet
 import com.open.quester.quest.runemysteries.RuneMysteries
 import com.open.quester.quest.sheepshearer.SheepShearer
+import com.open.quester.quest.vampyreslayer.VampyreSlayer
 import com.open.quester.quest.witchespotion.WitchesPotion
 import com.open.quester.quest.xmarksthespot.XMarksTheSpot
 import com.open.quester.tasks.GrandExchangeTask
@@ -24,7 +25,7 @@ import java.util.logging.Logger
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.0",
+    version = "1.0.1",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
@@ -33,7 +34,7 @@ import java.util.logging.Logger
         ScriptConfiguration(
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
             "Romeo & Juliet",
-            ["Romeo & Juliet", "Rune Mysteries", "Sheep Shearer", "Witch's Potion", "X Marks The Spot"]
+            ["Romeo & Juliet", "Rune Mysteries", "Sheep Shearer", "Vampyre Slayer", "Witch's Potion", "X Marks The Spot"]
         ),
         ScriptConfiguration(
             "Food", "Food you wish to eat if required", OptionType.STRING,
@@ -155,7 +156,7 @@ class Script : AbstractScript() {
             Varpbits.THE_RESTLESS_GHOST -> TODO()
             Varpbits.TREE_GNOME_VILLAGE -> TODO()
             Varpbits.QUEST_UNDERGROUND_PASS -> TODO()
-            Varpbits.VAMPYRE_SLAYER -> TODO()
+            Varpbits.VAMPYRE_SLAYER -> return VampyreSlayer(questInformation)
             Varpbits.WATERFALL -> TODO()
             Varpbits.WITCHS_HOUSE -> TODO()
             Varpbits.WITCHS_POTION -> return WitchesPotion(questInformation)
@@ -172,8 +173,9 @@ class Script : AbstractScript() {
         updateQuestConfiguration(food, hasRequirements, information, spellText)
     }
 
-    fun updateQuestConfiguration(
-        foodName: String, hasRequirements: Boolean, varpbits: Varpbits, spellText: String?
+    private fun updateQuestConfiguration(
+        foodName: String, hasRequirements: Boolean, varpbits: Varpbits,
+        spellText: String?
     ) {
         val weapon = Equipment.itemAt(Equipment.Slot.MAIN_HAND)
 
@@ -182,7 +184,7 @@ class Script : AbstractScript() {
         } else {
             val firstItemName = weapon.name()
             if (firstItemName.contains("wand", true) || firstItemName.contains("staff", true)) {
-                Magic.Spell.valueOf(getOption<String>("Spell"))
+                Magic.Spell.valueOf(getOption("Spell"))
             } else {
                 null
             }
@@ -196,7 +198,7 @@ class Script : AbstractScript() {
 
         // TODO Get half names etc for food
         questInformation =
-            QuestInformation(varpbits, arrayOf(foodName), weapon, spell, 5, eatAction, hasRequirements)
+            QuestInformation(varpbits, arrayOf(foodName), weapon, spell, eatAction, hasRequirements)
         quest = getQuest(questInformation!!)
         quest!!.setup()
         if (hasRequirements) {

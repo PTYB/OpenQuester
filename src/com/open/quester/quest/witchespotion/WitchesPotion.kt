@@ -25,6 +25,7 @@ import com.open.quester.quest.witchespotion.WitchesPotionConstants.TILE_HETTY
 import com.open.quester.quest.witchespotion.WitchesPotionConstants.TILE_RAT
 import org.powbot.api.Condition
 import org.powbot.api.rt4.Chat
+import org.powbot.api.rt4.GameObject
 import org.powbot.api.rt4.GroundItems
 import org.powbot.api.rt4.Inventory
 
@@ -38,7 +39,7 @@ class WitchesPotion(information: QuestInformation) : BaseQuest(information) {
 
     val bankForItems = BankStep(itemRequirementsList, BANK_EAST_FALADOR, information, {
         itemRequirementsList.any { Inventory.stream().name(it.chosenRequirement!!.name).count().toInt() == 0 }
-    }, true)
+    }, true, false)
 
     private val startQuest = QuestTaskList(
         bankForItems, SimpleConversationStep(NAME_WITCH, TILE_HETTY, CONVERSATION_HETTY, "Starting quest")
@@ -46,7 +47,7 @@ class WitchesPotion(information: QuestInformation) : BaseQuest(information) {
     private val killRat = killRat()
     private val finishQuest = SimpleObjectStep(
         TILE_CAULDRON, arrayOf(), NAME_CAULDRON, ACTION_CAULDRON,
-        "Finishing quest", { Condition.wait { Chat.chatting() } },
+        { Condition.wait { Chat.chatting() }}, "Finishing quest"
     )
 
     override fun addRequirements(): QuestRequirements {

@@ -2,7 +2,7 @@ package com.open.quester.common.base
 
 import org.powbot.api.event.InventoryChangeEvent
 import org.powbot.api.event.MessageEvent
-import org.powbot.mobile.drawing.Graphics
+import org.powbot.mobile.drawing.Rendering
 import java.util.logging.Logger
 
 abstract class BaseQuestStep {
@@ -48,7 +48,7 @@ abstract class BaseQuestStep {
      */
     abstract fun stepName(): String
 
-    open fun draw(g: Graphics) {
+    open fun draw(g: Rendering) {
 
     }
 

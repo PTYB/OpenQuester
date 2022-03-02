@@ -10,7 +10,6 @@ class QuestInformation(
     val foodName: Array<String>,
     val weaponName: Item? = null,
     var spell: Magic.Spell? = null,
-    val foodAmount: Int = 0,
     val eatAction: String? = null,
     val hasRequirements: Boolean = false
 ) {

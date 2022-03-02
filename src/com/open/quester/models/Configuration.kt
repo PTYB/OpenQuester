@@ -14,6 +14,18 @@ class ItemRequirementCondition(vararg itemRequirements: ItemRequirement) {
     val itemRequirements = itemRequirements.toList()
     var chosenRequirement: ItemRequirement? = null
 
+    init {
+        if (itemRequirements.size == 1) {
+            chosenRequirement = itemRequirements.first()
+        }
+    }
+
+    companion object {
+        fun emptySlots(count: Int): ItemRequirementCondition {
+            return ItemRequirementCondition(ItemRequirement("", true, count))
+        }
+    }
+
 }
 
 class ItemRequirement(

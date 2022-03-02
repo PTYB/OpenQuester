@@ -1,6 +1,7 @@
 package com.open.quester.common
 
 import com.open.quester.common.base.BaseQuestStep
+import com.open.quester.extensions.count
 import com.open.quester.models.ItemRequirement
 import com.open.quester.models.ItemRequirementCondition
 import com.open.quester.models.QuestInformation
@@ -14,11 +15,11 @@ import java.util.concurrent.Callable
 
 class BankStep(
     var conditions: List<ItemRequirementCondition>,
-    val bankTile: Tile,
+    private val bankTile: Tile,
     val questInformation: QuestInformation,
     val shouldExecute: Callable<Boolean>? = null,
-    val combat: Boolean = false,
-    val foodRequired: Boolean = false
+    private val combat: Boolean = false,
+    private val foodRequired: Boolean = false
 ) : BaseQuestStep() {
 
     private var setup = false
@@ -32,16 +33,41 @@ class BankStep(
 
     private fun calculateInventory() {
         val updatedConditions = conditions.toMutableList()
-        val calculatedItemsToKeep = conditions.map { it.chosenRequirement!!.name }.toMutableList()
+        val calculatedItemsToKeep = conditions
+            .filter { it.chosenRequirement!!.name.isNotEmpty() }
+            .map { it.chosenRequirement!!.name }.toMutableList()
+
         if (combat && questInformation.spell != null) {
             addMagicReq(updatedConditions, calculatedItemsToKeep)
         }
+        if (foodRequired) {
+            val foodName = questInformation.foodName.first()
+            logger.info("Food is required $foodName")
+            calculatedItemsToKeep.add(foodName)
+
+            val usedSlots = updatedConditions.filter {
+                it.chosenRequirement != null
+            }.sumOf { if (it.chosenRequirement!!.stackable) 1 else it.chosenRequirement!!.countRequired }
+            val foodToWithdraw = 28 - usedSlots
+            logger.info("Food required $foodToWithdraw")
+            updatedConditions.add(ItemRequirementCondition(ItemRequirement(foodName, true, foodToWithdraw)))
+        }
         itemsToKeep = calculatedItemsToKeep.toList().toTypedArray()
-        conditions = updatedConditions.toList()
+        conditions = updatedConditions.filter { !it.chosenRequirement!!.name.isNullOrEmpty() }.toList()
+
+        itemsToKeep.forEach {
+            logger.info("Items to keep $it")
+        }
+        conditions.forEach {
+            logger.info("Condition ${it.chosenRequirement!!.name}")
+        }
         logger.info("Updated calculated inventory")
     }
 
-    private fun addMagicReq(conditions: MutableList<ItemRequirementCondition>, itemsToKeep: MutableList<String>): MutableList<ItemRequirementCondition> {
+    private fun addMagicReq(
+        conditions: MutableList<ItemRequirementCondition>,
+        itemsToKeep: MutableList<String>
+    ): MutableList<ItemRequirementCondition> {
         questInformation.spell!!.requirements.forEach {
             if (it is RunePowerRequirement) {
                 val runeName = it.power.getFirstRune().name.lowercase() + " rune"
@@ -54,7 +80,7 @@ class BankStep(
                 val condition = ItemRequirementCondition(itemRequirement)
                 condition.chosenRequirement = itemRequirement
                 conditions.add(condition)
-                logger.info("Added requirement for ${it.amount*100} ${runeName}.")
+                logger.info("Added requirement for ${it.amount * 100} ${runeName}.")
             }
         }
         return conditions
@@ -74,6 +100,7 @@ class BankStep(
         }
 
         if (hasRequirements()) {
+            logger.info("Inventory has been setup properly.")
             hasBeenSetup = true
             return
         }
@@ -100,6 +127,7 @@ class BankStep(
             requirements.forEach { r ->
                 val chosenItem = Inventory.stream().name(r.name).count(true)
                 if (chosenItem >= r.countRequired) {
+                    logger.info("Has required item ${r.name}")
                     return@forEach
                 }
 
@@ -112,14 +140,23 @@ class BankStep(
      *   Checks if it has all the requirements already
      */
     private fun hasRequirements(): Boolean {
-        return setup && conditions.all {
+        if (!setup) {
+            return false
+        }
+
+        // TODO Find out why all wasn't working??
+        conditions.forEach {
             if (it.chosenRequirement == null) {
                 return false
             }
+            val requirement = it.chosenRequirement!!
 
-            return Inventory.stream().name(it.chosenRequirement!!.name).count(true) >=
-                    it.chosenRequirement!!.countRequired
+            logger.info("Checking requirement ${requirement.name}")
+            if (Inventory.count(requirement.name) < requirement.countRequired) {
+                return false
+            }
         }
+        return true
     }
 
     /**
