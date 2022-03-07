@@ -1,5 +1,6 @@
 package com.open.quester.common.base
 
+import com.open.quester.models.QuestInformation
 import org.powbot.api.Tile
 import org.powbot.api.rt4.GameObject
 import org.powbot.api.rt4.Objects
@@ -11,9 +12,10 @@ class SimpleObjectStep(
     val interaction: (GameObject) -> Boolean,
     val interactionWait: (GameObject) -> Boolean,
     val stepName: String,
+    questInformation: QuestInformation,
     val shouldExecute: () -> Boolean = { true },
     forceWeb: Boolean = false,
-) : WalkToInteractiveStep<GameObject>(noInteractableTile, conversation, forceWeb) {
+) : WalkToInteractiveStep<GameObject>(noInteractableTile, conversation, forceWeb, questInformation) {
 
     constructor (
         noInteractableTile: Tile,
@@ -22,13 +24,14 @@ class SimpleObjectStep(
         interaction: String,
         interactionWait: (GameObject) -> Boolean,
         stepName: String,
+        questInformation: QuestInformation,
         shouldExecute: () -> Boolean = { true },
-        forceWeb: Boolean = false,
+        forceWeb: Boolean = false
     ) : this(
         noInteractableTile, conversation,
         { Objects.stream().name(interactiveName).nearest().first() },
         { go -> go.interact(interaction) },
-        interactionWait, stepName, shouldExecute, forceWeb
+        interactionWait, stepName, questInformation, shouldExecute, forceWeb
     )
 
     override fun shouldExecute(): Boolean {

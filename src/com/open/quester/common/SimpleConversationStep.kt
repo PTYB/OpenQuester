@@ -2,6 +2,7 @@ package com.open.quester.common
 
 import com.open.quester.common.base.WalkToInteractiveStep
 import com.open.quester.extensions.Conditions
+import com.open.quester.models.QuestInformation
 import org.powbot.api.Condition
 import org.powbot.api.Random
 import org.powbot.api.Tile
@@ -21,9 +22,10 @@ class SimpleConversationStep(
     npcTile: Tile,
     conversation: Array<String>,
     val stepName: String,
+    questInformation: QuestInformation,
     forceWeb: Boolean = false,
-    val shouldExecute: () -> Boolean = { true }
-) : WalkToInteractiveStep<Npc>(npcTile, conversation, forceWeb) {
+    val shouldExecute: () -> Boolean = { true },
+) : WalkToInteractiveStep<Npc>(npcTile, conversation, forceWeb, questInformation) {
 
     /**
      * {@inheritDoc}

@@ -34,7 +34,9 @@ class BankStep(
     private fun calculateInventory() {
         val updatedConditions = conditions.toMutableList()
         val calculatedItemsToKeep = conditions
-            .filter { it.chosenRequirement!!.name.isNotEmpty() }
+            .filter {
+                it.chosenRequirement!!.name.isNotEmpty()
+            }
             .map { it.chosenRequirement!!.name }.toMutableList()
 
         if (combat && questInformation.spell != null) {
@@ -164,7 +166,10 @@ class BankStep(
      *  @return true if we successfully setup
      */
     private fun setupConditions(): Boolean {
-        calculateInventory()
+        var canCalculate = conditions.all { it.chosenRequirement != null }
+        if (canCalculate) {
+            calculateInventory()
+        }
         return when (setupTask.complete()) {
             SetupResult.FAILURE, SetupResult.INCOMPLETE -> {
                 ScriptManager.stop()
@@ -173,6 +178,9 @@ class BankStep(
             }
             SetupResult.UNKNOWN -> false
             SetupResult.COMPLETE -> {
+                if (!canCalculate) {
+                    calculateInventory()
+                }
                 setup = true
                 true
             }

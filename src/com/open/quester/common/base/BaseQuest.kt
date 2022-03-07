@@ -9,7 +9,7 @@ import org.powbot.mobile.drawing.Rendering
 import java.util.logging.Level
 import java.util.logging.Logger
 
-abstract class BaseQuest(protected val information: QuestInformation) {
+abstract class BaseQuest(val information: QuestInformation) {
     protected var logger: Logger = Logger.getLogger(information.questVarbits.questName)
     lateinit var questRequirements: QuestRequirements
     private var currentQuestStep: BaseQuestStep? = null

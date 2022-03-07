@@ -20,19 +20,19 @@ import com.open.quester.quest.runemysteries.RuneMysteriesConstants.TILE_SEDRIDOR
 class RuneMysteries(information: QuestInformation) : BaseQuest(information) {
     private val startQuestStep = SimpleConversationStep(
         NAME_DUKE_HORACIO, TILE_DUKE_HORACIO, CONVERSATION_DUKE_START,
-        "Talking to Duke."
+        "Talking to Duke.", information
     )
     private val talkToSedridor = SimpleConversationStep(
         NAME_SEDRIDOR, TILE_SEDRIDOR, CONVERSATION_SEDRIDOR,
-        "Talking to Sedridor"
+        "Talking to Sedridor", information
     )
     private val talkToAubury = SimpleConversationStep(
         NAME_AUBURY, TILE_AUBURY, CONVERSATION_AUBURY,
-        "Talking to Aubury"
+        "Talking to Aubury", information
     )
     private val talkToSedridorAgain = SimpleConversationStep(
         NAME_SEDRIDOR, TILE_SEDRIDOR, arrayOf(),
-        "Finishing Quest"
+        "Finishing Quest", information
     )
 
     override fun addRequirements(): QuestRequirements {

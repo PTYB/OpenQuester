@@ -42,12 +42,12 @@ class WitchesPotion(information: QuestInformation) : BaseQuest(information) {
     }, true, false)
 
     private val startQuest = QuestTaskList(
-        bankForItems, SimpleConversationStep(NAME_WITCH, TILE_HETTY, CONVERSATION_HETTY, "Starting quest")
+        bankForItems, SimpleConversationStep(NAME_WITCH, TILE_HETTY, CONVERSATION_HETTY, "Starting quest", information)
     )
     private val killRat = killRat()
     private val finishQuest = SimpleObjectStep(
         TILE_CAULDRON, arrayOf(), NAME_CAULDRON, ACTION_CAULDRON,
-        { Condition.wait { Chat.chatting() }}, "Finishing quest"
+        { Condition.wait { Chat.chatting() }}, "Finishing quest", information
     )
 
     override fun addRequirements(): QuestRequirements {
@@ -55,7 +55,7 @@ class WitchesPotion(information: QuestInformation) : BaseQuest(information) {
     }
 
     private fun killRat(): QuestTaskList {
-        val returnWithItems = SimpleConversationStep(NAME_WITCH, TILE_HETTY, CONVERSATION_HETTY, "Return items")
+        val returnWithItems = SimpleConversationStep(NAME_WITCH, TILE_HETTY, CONVERSATION_HETTY, "Return items", information)
         val pickupRatTail = PickupItemStep(
             TILE_RAT,
             { GroundItems.stream().name(ITEM_RATS_TAIL).nearest().first() },

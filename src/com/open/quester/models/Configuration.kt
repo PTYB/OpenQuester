@@ -20,6 +20,14 @@ class ItemRequirementCondition(vararg itemRequirements: ItemRequirement) {
         }
     }
 
+    constructor(itemName: String, untradable: Boolean, itemCount: Int) : this(
+        ItemRequirement(
+            itemName,
+            untradable,
+            itemCount
+        )
+    )
+
     companion object {
         fun emptySlots(count: Int): ItemRequirementCondition {
             return ItemRequirementCondition(ItemRequirement("", true, count))

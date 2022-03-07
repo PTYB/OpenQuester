@@ -1,6 +1,8 @@
 package com.open.quester.common.base
 
 import com.open.quester.common.CommonMethods
+import com.open.quester.helpers.CombatHelper
+import com.open.quester.models.QuestInformation
 import org.powbot.api.Condition
 import org.powbot.api.Point
 import org.powbot.api.Tile
@@ -16,14 +18,15 @@ import java.util.logging.Level
 abstract class WalkToInteractiveStep<T : Interactive>(
     protected var noInteractableTile: Tile,
     var conversation: Array<String>? = arrayOf(),
-    val forceWeb: Boolean = false
+    val forceWeb: Boolean = false,
+    val questInformation: QuestInformation
 ) : BaseQuestStep() {
 
     /**
      *  This is used to determine reachability, can be helpful to for things such as checking if you want to talk to a
      *  certain NPC through a wall or another object like that.
      */
-    protected var pointVariance = Point(0, 0)
+    var pointVariance = Point(0, 0)
     protected var extraFood: Array<String> = arrayOf()
 
     /**
@@ -48,7 +51,7 @@ abstract class WalkToInteractiveStep<T : Interactive>(
             completeChat()
         } else {
             val interactive = getInteractive()
-            if (interactive.valid() && interactive.inViewport()) {
+            if (interactive.valid() && interactive.inViewport(true)) {
                 val interactiveTile = getInteractiveTile(interactive).derive(pointVariance.x, pointVariance.y)
                 if (interactive.inViewport() && interactiveTile.reachable()) {
                     logger.log(Level.INFO, "Interacting with npc")
@@ -106,6 +109,10 @@ abstract class WalkToInteractiveStep<T : Interactive>(
             .setRunMin(20)
             .setRunMax(50)
             .setWalkUntil {
+                if (CombatHelper.shouldEat(*questInformation.foodName, *extraFood)) {
+                    CombatHelper.eatFood(*questInformation.foodName, *extraFood)
+                }
+
                 val interactive = getInteractive()
                 interactive.valid() &&
                         interactive.inViewport(true) &&

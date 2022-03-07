@@ -68,10 +68,16 @@ class VampyreSlayer(information: QuestInformation) : BaseQuest(information) {
     }
 
     private fun getStartQuest(): QuestTaskList {
-        val bank = BankStep(listOf(hammer, coins, ItemRequirementCondition.emptySlots(2)), BANK_DRAYNOR, information, combat = true, foodRequired = true)
+        val bank = BankStep(
+            listOf(hammer, coins, ItemRequirementCondition.emptySlots(2)),
+            BANK_DRAYNOR,
+            information,
+            combat = true,
+            foodRequired = true
+        )
         return QuestTaskList(
             bank,
-            SimpleConversationStep(NAME_MORGAN, TILE_MORGAN, CONVERSATION_MORGAN, "Staring quest")
+            SimpleConversationStep(NAME_MORGAN, TILE_MORGAN, CONVERSATION_MORGAN, "Staring quest", information)
         )
     }
 
@@ -93,13 +99,14 @@ class VampyreSlayer(information: QuestInformation) : BaseQuest(information) {
                 Condition.wait(condition)
             },
             "Getting Garlic",
+            information,
             { Inventory.count(ITEM_GARLIC) == 0 },
             false
         )
 
-        val talkToHarlow = SimpleConversationStep(NAME_HARLOW, TILE_HARLOW, CONVERSATION_HARLOW, "Talking to Harlow")
+        val talkToHarlow = SimpleConversationStep(NAME_HARLOW, TILE_HARLOW, CONVERSATION_HARLOW, "Talking to Harlow", information)
         val buyBeer = SimpleConversationStep(
-            NAME_BARTENDER, TILE_BARTENDER, CONVERSATION_BARTENDER, "Buying beer", false
+            NAME_BARTENDER, TILE_BARTENDER, CONVERSATION_BARTENDER, "Buying beer", information, false
         ) { Inventory.count("Coins") > 1 && Inventory.count("Beer") == 0 }
 
         return QuestTaskList(
@@ -111,7 +118,7 @@ class VampyreSlayer(information: QuestInformation) : BaseQuest(information) {
 
     private fun killDracula(): QuestTaskList {
         val talkToHarlow =
-            SimpleConversationStep(NAME_HARLOW, TILE_HARLOW, CONVERSATION_HARLOW, "Talking to Harlow", false) {
+            SimpleConversationStep(NAME_HARLOW, TILE_HARLOW, CONVERSATION_HARLOW, "Talking to Harlow", information,false) {
                 Inventory.count(NAME_STAKE) == 0
             }
 
@@ -129,6 +136,7 @@ class VampyreSlayer(information: QuestInformation) : BaseQuest(information) {
             { go -> go.interact("Open") },
             { _ -> Condition.wait(Conditions.waitUntilNpcAppears(NAME_DRACULA)) },
             "Opening coffin",
+            information,
             { Npcs.nearestNpc(NAME_DRACULA) == Npc.Nil },
             false
         )

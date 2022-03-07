@@ -9,9 +9,7 @@ class QuestInformation(
     val questVarbits: Varpbits,
     val foodName: Array<String>,
     val weaponName: Item? = null,
-    var spell: Magic.Spell? = null,
-    val eatAction: String? = null,
-    val hasRequirements: Boolean = false
+    var spell: Magic.Spell? = null
 ) {
 
     var lowerHpToEatAt: Int = 40

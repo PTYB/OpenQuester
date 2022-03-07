@@ -4,9 +4,11 @@ import com.open.quester.common.base.BaseQuest
 import com.open.quester.models.QuestInformation
 import com.open.quester.models.QuestRunnerState
 import com.open.quester.models.SetupResult
+import com.open.quester.quest.ernestthechicken.ErnestTheChicken
 import com.open.quester.quest.romeoandjuliet.RomeoAndJuliet
 import com.open.quester.quest.runemysteries.RuneMysteries
 import com.open.quester.quest.sheepshearer.SheepShearer
+import com.open.quester.quest.theknightssword.TheKnightsSword
 import com.open.quester.quest.vampyreslayer.VampyreSlayer
 import com.open.quester.quest.witchespotion.WitchesPotion
 import com.open.quester.quest.xmarksthespot.XMarksTheSpot
@@ -25,7 +27,7 @@ import java.util.logging.Logger
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.1",
+    version = "1.0.2",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
@@ -33,8 +35,9 @@ import java.util.logging.Logger
     [
         ScriptConfiguration(
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
-            "Romeo & Juliet",
-            ["Romeo & Juliet", "Rune Mysteries", "Sheep Shearer", "Vampyre Slayer", "Witch's Potion", "X Marks The Spot"]
+            "Ernest the Chicken",
+            ["Ernest the Chicken", "Romeo & Juliet", "Rune Mysteries", "Sheep Shearer", "The Knights Sword",
+                "Vampyre Slayer", "Witch's Potion", "X Marks The Spot"]
         ),
         ScriptConfiguration(
             "Food", "Food you wish to eat if required", OptionType.STRING,
@@ -134,7 +137,7 @@ class Script : AbstractScript() {
             Varpbits.THE_DIG_SITE -> TODO()
             Varpbits.DORICS_QUEST -> TODO()
             Varpbits.DRUIDIC_RITUAL -> TODO()
-            Varpbits.ERNEST_THE_CHICKEN -> TODO()
+            Varpbits.ERNEST_THE_CHICKEN -> ErnestTheChicken(questInformation)
             Varpbits.FIGHT_ARENA -> TODO()
             Varpbits.GERTRUDES_CAT -> TODO()
             Varpbits.FISHING_CONTEST -> TODO()
@@ -148,19 +151,19 @@ class Script : AbstractScript() {
             Varpbits.PLAGUE_CITY -> TODO()
             Varpbits.PRIEST_IN_PERIL -> TODO()
             Varpbits.REGICIDE -> TODO()
-            Varpbits.ROMEO_JULIET -> return RomeoAndJuliet(questInformation)
-            Varpbits.RUNE_MYSTERIES -> return RuneMysteries(questInformation)
+            Varpbits.ROMEO_JULIET -> RomeoAndJuliet(questInformation)
+            Varpbits.RUNE_MYSTERIES -> RuneMysteries(questInformation)
             Varpbits.SEA_SLUG -> TODO()
-            Varpbits.SHEEP_SHEARER -> return SheepShearer(questInformation)
-            Varpbits.THE_KNIGHTS_SWORD -> TODO()
+            Varpbits.SHEEP_SHEARER -> SheepShearer(questInformation)
+            Varpbits.THE_KNIGHTS_SWORD -> TheKnightsSword(questInformation)
             Varpbits.THE_RESTLESS_GHOST -> TODO()
             Varpbits.TREE_GNOME_VILLAGE -> TODO()
             Varpbits.QUEST_UNDERGROUND_PASS -> TODO()
-            Varpbits.VAMPYRE_SLAYER -> return VampyreSlayer(questInformation)
+            Varpbits.VAMPYRE_SLAYER -> VampyreSlayer(questInformation)
             Varpbits.WATERFALL -> TODO()
             Varpbits.WITCHS_HOUSE -> TODO()
-            Varpbits.WITCHS_POTION -> return WitchesPotion(questInformation)
-            Varpbits.X_MARKS_THE_SPOT -> return XMarksTheSpot(questInformation)
+            Varpbits.WITCHS_POTION -> WitchesPotion(questInformation)
+            Varpbits.X_MARKS_THE_SPOT -> XMarksTheSpot(questInformation)
         }
     }
 
@@ -190,15 +193,9 @@ class Script : AbstractScript() {
             }
         }
 
-        val eatAction = when {
-            foodName.isNullOrEmpty() -> null
-            foodName == "Jug of wine" -> "Drink"
-            else -> "Eat"
-        }
-
         // TODO Get half names etc for food
         questInformation =
-            QuestInformation(varpbits, arrayOf(foodName), weapon, spell, eatAction, hasRequirements)
+            QuestInformation(varpbits, arrayOf(foodName), weapon, spell)
         quest = getQuest(questInformation!!)
         quest!!.setup()
         if (hasRequirements) {
@@ -218,5 +215,5 @@ class Script : AbstractScript() {
 }
 
 fun main(args: Array<String>) {
-    ScriptUploader().uploadAndStart("Open Quester", "", "emulator-5554", true, false)
+    ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5555", true, false)
 }

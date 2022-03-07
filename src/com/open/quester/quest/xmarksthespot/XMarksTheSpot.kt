@@ -31,7 +31,7 @@ class XMarksTheSpot(information: QuestInformation) : BaseQuest(information) {
     private val spadeCondition = ItemRequirementCondition(spadeRequirement)
     private var startQuestStep = SimpleConversationStep(
         NAME_VEOS, TILE_LUMB_VEOS, VEOS_START_QUEST,
-        "Starting Quest"
+        "Starting Quest", information
     )
     private val spadeBank = BankStep(listOf(spadeCondition), BANK_LUMBRIDGE, information, {
         Inventory.stream().name(ITEM_SPADE).count() < 1
@@ -41,7 +41,7 @@ class XMarksTheSpot(information: QuestInformation) : BaseQuest(information) {
     private val digAtCastle = DigStep(TILE_DIG_CASTLE, "Digging at castle")
     private val digAtDraynor = DigStep(TILE_DIG_DRAYNOR, "Digging at draynor")
     private val digAtPigPen = DigStep(TILE_DIG_PIG_PEN, "Digging at pig pen")
-    private val finishQuest = SimpleConversationStep(NAME_VEOS, TILE_PORT_VEOS, arrayOf(), "Finishing Quest")
+    private val finishQuest = SimpleConversationStep(NAME_VEOS, TILE_PORT_VEOS, arrayOf(), "Finishing Quest", information)
 
     override fun addRequirements(): QuestRequirements {
         return QuestRequirements(listOf(spadeCondition), listOf())

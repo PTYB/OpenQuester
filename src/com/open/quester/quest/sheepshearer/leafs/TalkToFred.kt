@@ -10,7 +10,8 @@ class TalkToFred(val quest: SheepShearer) : QuestLeafStep<SheepShearer>(quest, "
         SheepShearerConstants.NAME_FRED,
         SheepShearerConstants.TILE_FRED,
         SheepShearerConstants.CONVERSATION_FRED,
-        "Talk to Fred"
+        "Talk to Fred",
+        quest.information
     )
 
     override fun run() {

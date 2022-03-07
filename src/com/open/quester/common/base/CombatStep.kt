@@ -2,6 +2,7 @@ package com.open.quester.common.base
 
 import com.open.quester.extensions.Conditions
 import com.open.quester.helpers.AutoCastSpell
+import com.open.quester.helpers.CombatHelper
 import com.open.quester.helpers.MagicHelpers
 import com.open.quester.helpers.MagicHelpers.isAutoCastOpen
 import com.open.quester.models.QuestInformation
@@ -83,24 +84,18 @@ class CombatStep(
     }
 
     private fun inCombat(attackingNpc: Npc) {
-        val healthPercent: Int = Random.nextInt(40, 53)
-
         if (!attacking() && attackingNpc.inViewport() && attackingNpc.healthPercent() > 0) {
             attackingNpc.interact(ACTION_ATTACK)
         }
 
-        if (!information.foodName.isNullOrEmpty() && Players.local()
-                .healthPercent() < healthToEat
-        ) {
+        if (CombatHelper.shouldEat(*information.foodName)) {
             eatFood(attackingNpc)
         }
     }
 
     private fun eatFood(attackingNpc: Npc) {
         val food: Item = Inventory.stream().name(*information.foodName).first()
-        if (food.valid()) {
-            food.interact(ACTION_EAT)
-            Condition.wait { !food.valid() }
+        if (food.valid() && CombatHelper.eatFood(*information.foodName)) {
             if (attackingNpc.interact(ACTION_ATTACK)) {
                 Condition.wait({ attacking() }, 100, 13)
             }

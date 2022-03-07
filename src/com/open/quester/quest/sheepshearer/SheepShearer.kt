@@ -12,7 +12,7 @@ import com.open.quester.quest.sheepshearer.SheepShearerConstants.TILE_FRED
 import com.open.quester.quest.sheepshearer.branches.HasBallsOfWool
 
 class SheepShearer(information: QuestInformation) : BaseQuest(information) {
-    private var talkToFred = SimpleConversationStep(NAME_FRED, TILE_FRED, CONVERSATION_FRED, "Talk to Fred")
+    private var talkToFred = SimpleConversationStep(NAME_FRED, TILE_FRED, CONVERSATION_FRED, "Talk to Fred", information)
     private val handBallsTree = HasBallsOfWool(this)
 
     override fun addRequirements(): QuestRequirements {

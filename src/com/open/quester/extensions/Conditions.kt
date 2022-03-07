@@ -9,18 +9,19 @@ class Conditions {
         fun waitUntilItemEntersInventory(
             itemName: String,
             itemCount: Int,
-        ): Callable<Boolean> {
-            return Callable<Boolean> {
+        ): () -> Boolean {
+            return  {
                 val newCount: Int = Inventory.stream().name(itemName)
                     .toList().sumOf { obj: Item -> obj.stack }
                 newCount > itemCount
             }
         }
+
         fun waitUntilItemEntersInventory(
             itemId: Int,
             itemCount: Int,
-        ): Callable<Boolean> {
-            return Callable<Boolean> {
+        ): () -> Boolean {
+            return {
                 val newCount: Int = Inventory.stream().id(itemId)
                     .toList().sumOf { obj: Item -> obj.stack }
                 newCount > itemCount
@@ -38,7 +39,7 @@ class Conditions {
             }
         }
 
-        fun waitUntilAnyItemEntersInventory() : Callable<Boolean>{
+        fun waitUntilAnyItemEntersInventory(): Callable<Boolean> {
             val originalCount = Inventory.emptySlotCount()
             return Callable<Boolean> {
                 originalCount > Inventory.emptySlotCount()
