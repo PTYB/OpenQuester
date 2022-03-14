@@ -46,7 +46,7 @@ class CombineItemStep(
             }
             Condition.wait {
                 val newItemCount = Inventory.stream().name(firstItemName, secondItemName).count(true)
-                itemsCount != newItemCount
+                Chat.chatting() || itemsCount != newItemCount
             }
             if (Chat.chatting()) {
                 Chat.completeChat()

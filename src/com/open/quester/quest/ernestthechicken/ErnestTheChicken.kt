@@ -4,14 +4,12 @@ import com.open.quester.common.*
 import com.open.quester.common.base.BaseQuest
 import com.open.quester.common.base.BaseQuestStep
 import com.open.quester.common.base.SimpleObjectStep
-import com.open.quester.extensions.Conditions
 import com.open.quester.extensions.count
 import com.open.quester.helpers.InteractionsHelper
 import com.open.quester.models.ItemRequirementCondition
 import com.open.quester.models.QuestInformation
 import com.open.quester.models.QuestRequirements
 import com.open.quester.quest.Constants.BANK_DRAYNOR
-import org.powbot.api.Condition
 import org.powbot.api.event.MessageEvent
 import org.powbot.api.rt4.*
 import org.powbot.mobile.script.ScriptManager
@@ -133,7 +131,7 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
             arrayOf(),
             NAME_COMPOST_HEAP,
             "Search",
-            { Condition.wait { Inventory.count(ITEM_KEY) == 1 } },
+            { Inventory.count(ITEM_KEY) == 1 },
             "Getting key",
             information,
             { Inventory.count(ITEM_KEY, ITEM_RUBBER_TUBE) == 0 },
@@ -145,7 +143,7 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
             arrayOf(),
             { Objects.stream().name(NAME_FOUNTAIN).first() },
             { go: GameObject ->
-                InteractionsHelper.useItemOnGameObject(
+                InteractionsHelper.useItemOnInteractive(
                     Inventory.stream().name(ITEM_POISONED_FISH_FOOD).first(), go
                 )
             },
@@ -165,7 +163,7 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
             arrayOf(),
             NAME_FOUNTAIN,
             "Search",
-            { Condition.wait { Chat.chatting() } },
+            { Chat.chatting() },
             "Grabbing gauge",
             information,
             { poisoned && Inventory.count(ITEM_PRESSURE_GAUGE) == 0 }

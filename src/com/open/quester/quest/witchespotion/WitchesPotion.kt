@@ -47,7 +47,7 @@ class WitchesPotion(information: QuestInformation) : BaseQuest(information) {
     private val killRat = killRat()
     private val finishQuest = SimpleObjectStep(
         TILE_CAULDRON, arrayOf(), NAME_CAULDRON, ACTION_CAULDRON,
-        { Condition.wait { Chat.chatting() }}, "Finishing quest", information
+        { Chat.chatting() }, "Finishing quest", information
     )
 
     override fun addRequirements(): QuestRequirements {

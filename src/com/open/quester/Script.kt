@@ -1,10 +1,13 @@
 package com.open.quester
 
+import com.google.common.eventbus.Subscribe
 import com.open.quester.common.base.BaseQuest
 import com.open.quester.models.QuestInformation
 import com.open.quester.models.QuestRunnerState
 import com.open.quester.models.SetupResult
+import com.open.quester.quest.daddyshome.DaddysHome
 import com.open.quester.quest.ernestthechicken.ErnestTheChicken
+import com.open.quester.quest.gertrudescat.GertrudesCat
 import com.open.quester.quest.romeoandjuliet.RomeoAndJuliet
 import com.open.quester.quest.runemysteries.RuneMysteries
 import com.open.quester.quest.sheepshearer.SheepShearer
@@ -14,6 +17,7 @@ import com.open.quester.quest.witchespotion.WitchesPotion
 import com.open.quester.quest.xmarksthespot.XMarksTheSpot
 import com.open.quester.tasks.GrandExchangeTask
 import com.open.quester.tasks.SetupTask
+import org.powbot.api.event.MessageEvent
 import org.powbot.api.rt4.Equipment
 import org.powbot.api.rt4.Item
 import org.powbot.api.rt4.Magic
@@ -27,7 +31,7 @@ import java.util.logging.Logger
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.2",
+    version = "1.0.3",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
@@ -36,7 +40,7 @@ import java.util.logging.Logger
         ScriptConfiguration(
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
             "Ernest the Chicken",
-            ["Ernest the Chicken", "Romeo & Juliet", "Rune Mysteries", "Sheep Shearer", "The Knights Sword",
+            ["Ernest the Chicken","Gertrudes Cat", "Romeo & Juliet", "Rune Mysteries", "Sheep Shearer", "The Knights Sword",
                 "Vampyre Slayer", "Witch's Potion", "X Marks The Spot"]
         ),
         ScriptConfiguration(
@@ -133,13 +137,14 @@ class Script : AbstractScript() {
             Varpbits.BONE_VOYAGE -> TODO()
             Varpbits.CLIENT_OF_KOUREND -> TODO()
             Varpbits.COOKS_ASSISTANT -> TODO()
+            Varpbits.DADDYS_HOME -> DaddysHome(questInformation)
             Varpbits.DEMON_SLAYER -> TODO()
             Varpbits.THE_DIG_SITE -> TODO()
             Varpbits.DORICS_QUEST -> TODO()
             Varpbits.DRUIDIC_RITUAL -> TODO()
             Varpbits.ERNEST_THE_CHICKEN -> ErnestTheChicken(questInformation)
             Varpbits.FIGHT_ARENA -> TODO()
-            Varpbits.GERTRUDES_CAT -> TODO()
+            Varpbits.GERTRUDES_CAT -> GertrudesCat(questInformation)
             Varpbits.FISHING_CONTEST -> TODO()
             Varpbits.GOBLIN_DIPLOMACY -> TODO()
             Varpbits.HAND_IN_THE_SAND -> TODO()
@@ -212,8 +217,14 @@ class Script : AbstractScript() {
             .build()
         addPaint(p)
     }
+
+    @Subscribe
+    fun messaged(messageEvent: MessageEvent) {
+        val currentQuest = quest ?: return
+        currentQuest.handleMessage(messageEvent)
+    }
 }
 
 fun main(args: Array<String>) {
-    ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5555", true, false)
+    ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5625", true, false)
 }

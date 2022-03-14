@@ -15,6 +15,7 @@ enum class Varpbits
     BONE_VOYAGE("Bone Voyage", 1630, -1),
     CLIENT_OF_KOUREND("Client of Kourend", 1566, 7),
     COOKS_ASSISTANT("Cook's Assistant", 29, 2),
+    DADDYS_HOME("Daddys Home", 393, -1),
     DEMON_SLAYER("Demon Slayer", 222, -1),
     THE_DIG_SITE("The Digsite", 131, -1),
     DORICS_QUEST("Dorics Quest", 31, 100),

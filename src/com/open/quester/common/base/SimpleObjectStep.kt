@@ -1,11 +1,12 @@
 package com.open.quester.common.base
 
 import com.open.quester.models.QuestInformation
+import org.powbot.api.Condition
 import org.powbot.api.Tile
 import org.powbot.api.rt4.GameObject
 import org.powbot.api.rt4.Objects
 
-class SimpleObjectStep(
+open class SimpleObjectStep(
     noInteractableTile: Tile,
     conversation: Array<String>? = arrayOf(),
     val interactive: () -> GameObject,
@@ -29,7 +30,7 @@ class SimpleObjectStep(
         forceWeb: Boolean = false
     ) : this(
         noInteractableTile, conversation,
-        { Objects.stream().name(interactiveName).nearest().first() },
+        { Objects.stream().name(interactiveName).action(interaction).nearest().first() },
         { go -> go.interact(interaction) },
         interactionWait, stepName, questInformation, shouldExecute, forceWeb
     )
@@ -43,7 +44,7 @@ class SimpleObjectStep(
     }
 
     override fun interact(interactive: GameObject): Boolean {
-        return interaction.invoke(interactive) && interactionWait.invoke(interactive)
+        return interaction.invoke(interactive) && Condition.wait { interactionWait.invoke(interactive) }
     }
 
     override fun getInteractiveTile(interactive: GameObject): Tile {

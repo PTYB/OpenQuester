@@ -122,49 +122,49 @@ class LeverConditions(val questInformation: QuestInformation) {
     }
 
     val pullLeverA = { isUnderground() && leverPulled() && noOilCan() }
-    val pullLeverAWait = { _: GameObject -> Condition.wait { aPulled() } }
+    val pullLeverAWait = { _: GameObject -> aPulled() }
 
     val pullLeverB = { isUnderground() && leverPulled(a = true) && noOilCan() }
-    val pullLeverBWait = { _: GameObject -> Condition.wait { bPulled() } }
+    val pullLeverBWait = { _: GameObject -> bPulled() }
 
     private val openFirstGate = { AREA_MAIN_AREA.contains(Players.local()) && leverPulled(a = true, b = true) }
-    private val openFirstGateWait = { _: GameObject -> Condition.wait { AREA_CD_LEVER_ROOM.contains(Players.local()) } }
+    private val openFirstGateWait = { _: GameObject -> AREA_CD_LEVER_ROOM.contains(Players.local()) }
 
     private val pullLeverD = { leverPulled(a = true, b = true) && AREA_CD_LEVER_ROOM.contains(Players.local()) }
-    private val pullLeverDWait = { _: GameObject -> Condition.wait { dPulled() } }
+    private val pullLeverDWait = { _: GameObject -> dPulled() }
 
     private val openSecondGate =
         { AREA_CD_LEVER_ROOM.contains(Players.local()) && leverPulled(a = true, b = true, d = true) }
     private val openSecondGateWait =
-        { _: GameObject -> Condition.wait { AREA_MIDDLE_BOTTOM.contains(Players.local()) } }
+        { _: GameObject -> AREA_MIDDLE_BOTTOM.contains(Players.local()) }
 
     private val openThirdGate =
         { AREA_MIDDLE_BOTTOM.contains(Players.local()) && leverPulled(a = true, b = true, d = true) }
-    private val openThirdGateWait = { _: GameObject -> Condition.wait { AREA_MAIN_AREA.contains(Players.local()) } }
+    private val openThirdGateWait = { _: GameObject -> AREA_MAIN_AREA.contains(Players.local()) }
 
     private val pullLeverAAgain =
         { AREA_MAIN_AREA.contains(Players.local()) && leverPulled(a = true, b = true, d = true) }
-    private val pullLeverAAgainWait = { _: GameObject -> Condition.wait { !aPulled() } }
+    private val pullLeverAAgainWait = { _: GameObject -> !aPulled() }
 
     private val pullLeverBAgain = { AREA_MAIN_AREA.contains(Players.local()) && leverPulled(b = true, d = true) }
-    private val pullLeverBAgainWait = { _: GameObject -> Condition.wait { !bPulled() } }
+    private val pullLeverBAgainWait = { _: GameObject -> !bPulled() }
 
     private val openFourthGate = { AREA_MAIN_AREA.contains(Players.local()) && leverPulled(d = true) }
     private val openFourthGateWait =
-        { _: GameObject -> Condition.wait { AREA_MIDDLE_BOTTOM.contains(Players.local()) } }
+        { _: GameObject -> AREA_MIDDLE_BOTTOM.contains(Players.local()) }
 
     private val openFifthGate = { AREA_MIDDLE_BOTTOM.contains(Players.local()) && leverPulled(d = true) }
-    private val openFifthGateWait = { _: GameObject -> Condition.wait { AREA_BOTTOM_LEFT.contains(Players.local()) } }
+    private val openFifthGateWait = { _: GameObject -> AREA_BOTTOM_LEFT.contains(Players.local()) }
 
     private val openSixthGate = { AREA_BOTTOM_LEFT.contains(Players.local()) && leverPulled(d = true) }
-    private val openSixthGateWait = { _: GameObject -> Condition.wait { AREA_EF_LEVER_ROOM.contains(Players.local()) } }
+    private val openSixthGateWait = { _: GameObject -> AREA_EF_LEVER_ROOM.contains(Players.local()) }
 
     private val pullLeverE = { AREA_EF_LEVER_ROOM.contains(Players.local()) && leverPulled(d = true) }
-    private val pullLeverEWait = { _: GameObject -> Condition.wait { ePulled() } }
+    private val pullLeverEWait = { _: GameObject -> ePulled() }
 
     private val pullLeverF =
         { AREA_EF_LEVER_ROOM.contains(Players.local()) && leverPulled(d = true, e = true) }
-    private val pullLeverFWait = { _: GameObject -> Condition.wait { fPulled() } }
+    private val pullLeverFWait = { _: GameObject -> fPulled() }
 
     private val openSeventhGate = {
         AREA_EF_LEVER_ROOM.contains(Players.local()) && leverPulled(
@@ -174,7 +174,7 @@ class LeverConditions(val questInformation: QuestInformation) {
         )
     }
     private val openSeventhGateWait =
-        { _: GameObject -> Condition.wait { AREA_MIDDLE_TOP.contains(Players.local()) } }
+        { _: GameObject -> AREA_MIDDLE_TOP.contains(Players.local()) }
 
     private val openEighthGate = {
         AREA_MIDDLE_TOP.contains(Players.local()) && leverPulled(
@@ -184,15 +184,15 @@ class LeverConditions(val questInformation: QuestInformation) {
         )
     }
     private val openEighthGateWait =
-        { _: GameObject -> Condition.wait { AREA_CD_LEVER_ROOM.contains(Players.local()) } }
+        { _: GameObject -> AREA_CD_LEVER_ROOM.contains(Players.local()) }
 
     private val pullLeverC =
         { AREA_CD_LEVER_ROOM.contains(Players.local()) && leverPulled(d = true, e = true, f = true) }
-    private val pullLeverCWait = { _: GameObject -> Condition.wait { cPulled() } }
+    private val pullLeverCWait = { _: GameObject -> cPulled() }
 
     private val openNinthGate =
         { AREA_CD_LEVER_ROOM.contains(Players.local()) && leverPulled(c = true, d = true, e = true, f = true) }
-    private val openNinthGateWait = { _: GameObject -> Condition.wait { AREA_MIDDLE_TOP.contains(Players.local()) } }
+    private val openNinthGateWait = { _: GameObject -> AREA_MIDDLE_TOP.contains(Players.local()) }
 
     private val openTenthGate = {
         AREA_MIDDLE_TOP.contains(Players.local()) && leverPulled(
@@ -202,7 +202,7 @@ class LeverConditions(val questInformation: QuestInformation) {
             f = true
         )
     }
-    private val openTenthGateWait = { _: GameObject -> Condition.wait { AREA_EF_LEVER_ROOM.contains(Players.local()) } }
+    private val openTenthGateWait = { _: GameObject -> AREA_EF_LEVER_ROOM.contains(Players.local()) }
 
     private val pullLeverEAgain = {
         AREA_EF_LEVER_ROOM.contains(Players.local()) && leverPulled(
@@ -212,7 +212,7 @@ class LeverConditions(val questInformation: QuestInformation) {
             f = true
         )
     }
-    private val pullLeverEAgainWait = { _: GameObject -> Condition.wait { !ePulled() } }
+    private val pullLeverEAgainWait = { _: GameObject -> !ePulled() }
 
     private val openEleventhGate = {
         AREA_EF_LEVER_ROOM.contains(Players.local()) && leverPulled(
@@ -221,7 +221,7 @@ class LeverConditions(val questInformation: QuestInformation) {
             f = true
         )
     }
-    private val openEleventhGateWait = { _: GameObject -> Condition.wait { AREA_MIDDLE_TOP.contains(Players.local()) } }
+    private val openEleventhGateWait = { _: GameObject -> AREA_MIDDLE_TOP.contains(Players.local()) }
 
     private val openTwelthGate = {
         AREA_MIDDLE_TOP.contains(Players.local()) && leverPulled(
@@ -231,17 +231,17 @@ class LeverConditions(val questInformation: QuestInformation) {
         )
     }
     private val openTwelthGateWait =
-        { _: GameObject -> Condition.wait { AREA_MIDDLE_BOTTOM.contains(Players.local()) } }
+        { _: GameObject -> AREA_MIDDLE_BOTTOM.contains(Players.local()) }
 
     private val openThirteenGate =
         { AREA_MIDDLE_BOTTOM.contains(Players.local()) && leverPulled(c = true, d = true, f = true) }
-    private val openThirteenGateWait = { _: GameObject -> Condition.wait { AREA_MAIN_AREA.contains(Players.local()) } }
+    private val openThirteenGateWait = { _: GameObject -> AREA_MAIN_AREA.contains(Players.local()) }
 
     private val openOilGate = {
         noOilCan() && AREA_MAIN_AREA.contains(Players.local()) &&
                 leverPulled(c = true, d = true, f = true)
     }
-    private val openOilGateWait = { _: GameObject -> Condition.wait { AREA_OIL_CAN.contains(Players.local()) } }
+    private val openOilGateWait = { _: GameObject -> AREA_OIL_CAN.contains(Players.local()) }
 
     private val leaveOilGate = {
         AREA_OIL_CAN.contains(Players.local()) && leverPulled(
@@ -250,7 +250,7 @@ class LeverConditions(val questInformation: QuestInformation) {
             f = true
         )
     }
-    private val leaveOilGateWait = { _: GameObject -> Condition.wait { AREA_MAIN_AREA.contains(Players.local()) } }
+    private val leaveOilGateWait = { _: GameObject -> AREA_MAIN_AREA.contains(Players.local()) }
 
     private fun isUnderground(): Boolean {
         return AREA_MAIN_AREA.contains(Players.local())

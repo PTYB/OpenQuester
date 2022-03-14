@@ -141,7 +141,7 @@ open class SetupTask(
      *  @return Count of items with that exact name
      */
     protected open fun getInventoryItemCount(name: String): Int {
-        return Inventory.stream().name(name).count().toInt()
+        return Inventory.stream().name(name).count(true).toInt()
     }
 
     /**

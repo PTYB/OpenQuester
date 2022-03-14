@@ -29,12 +29,12 @@ object InteractionsHelper {
         return secondItem.click()
     }
 
-    fun useItemOnGameObject(
+    fun useItemOnInteractive(
         item: Item,
-        gameObject: GameObject
+        interactive: Interactive
     ): Boolean {
         return if (item.interact("Use") && Inventory.selectedItem().name() == item.name()) {
-            return gameObject.interact("Use")
+            return interactive.interact("Use")
         } else {
             false
         }
