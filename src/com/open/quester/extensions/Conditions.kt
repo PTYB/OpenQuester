@@ -10,7 +10,7 @@ class Conditions {
             itemName: String,
             itemCount: Int,
         ): () -> Boolean {
-            return  {
+            return {
                 val newCount: Int = Inventory.stream().name(itemName)
                     .toList().sumOf { obj: Item -> obj.stack }
                 newCount > itemCount
@@ -31,8 +31,8 @@ class Conditions {
         fun waitUntilItemLeavesInventory(
             itemName: String,
             itemCount: Int,
-        ): Callable<Boolean> {
-            return Callable<Boolean> {
+        ): () -> Boolean {
+            return {
                 val newCount: Int = Inventory.stream().name(itemName)
                     .toList().sumOf { obj: Item -> obj.stack }
                 newCount < itemCount

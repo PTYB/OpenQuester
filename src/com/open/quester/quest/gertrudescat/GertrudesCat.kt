@@ -77,7 +77,7 @@ class GertrudesCat(information: QuestInformation) : BaseQuest(information) {
             val milk = Inventory.stream().name(NAME_MILK).first()
             InteractionsHelper.useItemOnInteractive(milk, cat)
         },
-        { Conditions.waitUntilItemLeavesInventory(NAME_MILK, 1).call() },
+        { Conditions.waitUntilItemLeavesInventory(NAME_MILK, 1).invoke() },
         "Using milk on cat",
         questInformation = information
     )
@@ -88,7 +88,7 @@ class GertrudesCat(information: QuestInformation) : BaseQuest(information) {
             val sardine = Inventory.stream().name(ITEM_SEASONED_SARDINE).first()
             InteractionsHelper.useItemOnInteractive(sardine, cat)
         },
-        { Conditions.waitUntilItemLeavesInventory(ITEM_SEASONED_SARDINE, 1).call() },
+        { Conditions.waitUntilItemLeavesInventory(ITEM_SEASONED_SARDINE, 1).invoke() },
         "Using milk on cat",
         questInformation = information
     )
@@ -106,7 +106,7 @@ class GertrudesCat(information: QuestInformation) : BaseQuest(information) {
             val kitten = Inventory.stream().name(GertrudesCatConstants.ITEM_KITTEN).first()
             InteractionsHelper.useItemOnInteractive(kitten, cat)
         },
-        { Conditions.waitUntilItemLeavesInventory(GertrudesCatConstants.ITEM_KITTEN, 1).call() },
+        { Conditions.waitUntilItemLeavesInventory(GertrudesCatConstants.ITEM_KITTEN, 1).invoke() },
         "Returning kitten",
         questInformation = information
     )

@@ -12,7 +12,7 @@ import com.open.quester.quest.sheepshearer.leafs.SpinBallsOfWool
 import com.open.quester.quest.sheepshearer.leafs.TalkToFred
 import org.powbot.api.rt4.Inventory
 
-class HasBallsOfWool(quest: SheepShearer) : QuestBranchStep<SheepShearer>(quest, "Should spin wheel") {
+class HasBallsOfWool(quest: SheepShearer) : QuestBranchStep<SheepShearer>(quest, "Has balls of wool?") {
     override val successElement: QuestTree<SheepShearer> = TalkToFred(quest)
     override val failedElement: QuestTree<SheepShearer> = HasComponents(quest)
 
@@ -21,7 +21,7 @@ class HasBallsOfWool(quest: SheepShearer) : QuestBranchStep<SheepShearer>(quest,
     }
 }
 
-class HasComponents(quest: SheepShearer) : QuestBranchStep<SheepShearer>(quest, "Should spin wheel") {
+class HasComponents(quest: SheepShearer) : QuestBranchStep<SheepShearer>(quest, "Has Components?") {
     override val successElement: QuestTree<SheepShearer> = SpinBallsOfWool(quest)
     override val failedElement: QuestTree<SheepShearer> = HasShears(quest)
 
@@ -30,7 +30,7 @@ class HasComponents(quest: SheepShearer) : QuestBranchStep<SheepShearer>(quest, 
     }
 }
 
-class HasShears(quest: SheepShearer) : QuestBranchStep<SheepShearer>(quest, "Should spin wheel") {
+class HasShears(quest: SheepShearer) : QuestBranchStep<SheepShearer>(quest, "Has Shears?") {
     override val successElement: QuestTree<SheepShearer> = GatherWool(quest)
     override val failedElement: QuestTree<SheepShearer> = TalkToFred(quest)
 
