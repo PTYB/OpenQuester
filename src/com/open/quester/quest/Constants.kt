@@ -10,6 +10,8 @@ object Constants {
     const val ITEM_HAMMER = "Hammer"
     const val ITEM_COINS = "Coins"
     const val ITEM_GARLIC = "Garlic"
+    const val ITEM_ROPE = "Rope"
+    const val ITEM_MILK = "Bucket of milk"
 
     val BANK_DRAYNOR = Tile(3093, 3243)
     val BANK_LUMBRIDGE = Tile(3208, 3218, 2)
@@ -17,6 +19,7 @@ object Constants {
     val BANK_VARROCK_WEST_SOUTH_SIDE = Tile(3185, 3436)
     val BANK_VARROCK_EAST = Tile(3253, 3420)
     val BANK_WEST_FALADOR = Tile(2946, 3368)
+    val BANK_NORTH_ARDOUGNE = Tile(2615, 3332)
 
     object ItemRequirements {
         const val NAME_MILK = "Bucket of milk"

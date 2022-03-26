@@ -10,6 +10,7 @@ import com.open.quester.quest.doricsquest.DoricsQuest
 import com.open.quester.quest.druidicritual.DruidicRitual
 import com.open.quester.quest.ernestthechicken.ErnestTheChicken
 import com.open.quester.quest.gertrudescat.GertrudesCat
+import com.open.quester.quest.plaguecity.PlagueCity
 import com.open.quester.quest.romeoandjuliet.RomeoAndJuliet
 import com.open.quester.quest.runemysteries.RuneMysteries
 import com.open.quester.quest.sheepshearer.SheepShearer
@@ -33,7 +34,7 @@ import java.util.logging.Logger
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.4",
+    version = "1.0.5",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
@@ -42,8 +43,9 @@ import java.util.logging.Logger
         ScriptConfiguration(
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
             "Dorics Quest",
-            ["Dorics Quest", "Druidic Ritual", "Ernest the Chicken","Gertrudes Cat", "Romeo & Juliet", "Rune Mysteries", "Sheep Shearer", "The Knights Sword",
-                "Vampyre Slayer", "Witch's Potion", "X Marks The Spot"]
+            ["Dorics Quest", "Druidic Ritual", "Ernest the Chicken","Gertrudes Cat","Plague City", "Romeo & Juliet",
+                "Rune Mysteries", "Sheep Shearer", "The Knights Sword", "Vampyre Slayer", "Witch's Potion",
+                "X Marks The Spot"]
         ),
         ScriptConfiguration(
             "Food", "Food you wish to eat if required", OptionType.STRING,
@@ -155,7 +157,7 @@ class Script : AbstractScript() {
             Varpbits.LOST_CITY -> TODO()
             Varpbits.NATURAL_HISTORY -> TODO()
             Varpbits.OBSERVATORY_QUEST -> TODO()
-            Varpbits.PLAGUE_CITY -> TODO()
+            Varpbits.PLAGUE_CITY -> PlagueCity(questInformation)
             Varpbits.PRIEST_IN_PERIL -> TODO()
             Varpbits.REGICIDE -> TODO()
             Varpbits.ROMEO_JULIET -> RomeoAndJuliet(questInformation)
