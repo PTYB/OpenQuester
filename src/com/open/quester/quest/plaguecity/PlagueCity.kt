@@ -12,10 +12,10 @@ import com.open.quester.models.ItemRequirementCondition
 import com.open.quester.models.QuestInformation
 import com.open.quester.models.QuestRequirements
 import com.open.quester.quest.Constants.BANK_NORTH_ARDOUGNE
+import com.open.quester.quest.Constants.ITEM_BUCKET_OF_WATER
 import com.open.quester.quest.Constants.ITEM_MILK
 import com.open.quester.quest.Constants.ITEM_ROPE
 import com.open.quester.quest.Constants.ITEM_SPADE
-import org.powbot.api.Condition
 import org.powbot.api.Tile
 import org.powbot.api.rt4.*
 import com.open.quester.quest.plaguecity.PlagueCityConstants.ACTION_GRILL
@@ -31,7 +31,6 @@ import com.open.quester.quest.plaguecity.PlagueCityConstants.CONVERSATION_EDMOND
 import com.open.quester.quest.plaguecity.PlagueCityConstants.CONVERSATION_JETHICK
 import com.open.quester.quest.plaguecity.PlagueCityConstants.CONVERSATION_PLAGUE_HOUSE
 import com.open.quester.quest.plaguecity.PlagueCityConstants.ITEM_BOOK
-import com.open.quester.quest.plaguecity.PlagueCityConstants.ITEM_BUCKET_OF_WATER
 import com.open.quester.quest.plaguecity.PlagueCityConstants.ITEM_CHOCOLATE_DUST
 import com.open.quester.quest.plaguecity.PlagueCityConstants.ITEM_DWELLBERRIES
 import com.open.quester.quest.plaguecity.PlagueCityConstants.ITEM_GAS_MASK
@@ -69,7 +68,6 @@ import com.open.quester.quest.plaguecity.PlagueCityConstants.VARP_UNDERGROUND
 import com.open.quester.quest.plaguecity.PlagueCityConstants.VARP_VALUE_DUG
 import com.open.quester.quest.plaguecity.PlagueCityConstants.VARP_VALUE_PULLED
 import com.open.quester.quest.plaguecity.tasks.CreateMedicine
-import java.util.concurrent.Callable
 
 class PlagueCity(information: QuestInformation) : BaseQuest(information) {
 
@@ -399,7 +397,7 @@ class PlagueCity(information: QuestInformation) : BaseQuest(information) {
             TILE_AlRENA, {
                 GroundItems.stream().name(ITEM_PICTURE_OF_ELENA).nearest().first()
             }, { Inventory.stream().name(ITEM_PICTURE_OF_ELENA).count().toInt() == 0 },
-            "Take", "Picking up picture, nothing sus.", information
+            "Take", "Picking up picture, nothing sus."
         )
 
         return QuestTaskList(pickupPicture, talkToEdmond)

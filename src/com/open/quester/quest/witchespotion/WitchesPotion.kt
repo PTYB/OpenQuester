@@ -23,9 +23,7 @@ import com.open.quester.quest.witchespotion.WitchesPotionConstants.NAME_WITCH
 import com.open.quester.quest.witchespotion.WitchesPotionConstants.TILE_CAULDRON
 import com.open.quester.quest.witchespotion.WitchesPotionConstants.TILE_HETTY
 import com.open.quester.quest.witchespotion.WitchesPotionConstants.TILE_RAT
-import org.powbot.api.Condition
 import org.powbot.api.rt4.Chat
-import org.powbot.api.rt4.GameObject
 import org.powbot.api.rt4.GroundItems
 import org.powbot.api.rt4.Inventory
 
@@ -61,8 +59,7 @@ class WitchesPotion(information: QuestInformation) : BaseQuest(information) {
             { GroundItems.stream().name(ITEM_RATS_TAIL).nearest().first() },
             { GroundItems.stream().name(ITEM_RATS_TAIL).count() > 0 && Inventory.count(ITEM_RATS_TAIL) == 0 },
             "Take",
-            "Picking up rat tail",
-            information
+            "Picking up rat tail"
         )
         val killRat = CombatStep(TILE_RAT, information, NAME_RAT, "Killing rat")
         { Inventory.count(ITEM_RATS_TAIL) == 0 }

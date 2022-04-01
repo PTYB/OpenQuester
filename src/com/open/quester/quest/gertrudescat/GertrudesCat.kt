@@ -55,8 +55,7 @@ class GertrudesCat(information: QuestInformation) : BaseQuest(information) {
         { GroundItems.stream().name(ITEM_DOOGLE_LEAVES).first() },
         { Inventory.count(ITEM_SEASONED_SARDINE, ITEM_DOOGLE_LEAVES) == 0 },
         "Take",
-        "Picking up doogle leaves",
-        information
+        "Picking up doogle leaves"
     )
 
     private val makeSeasonedSardine = CombineItemStep(

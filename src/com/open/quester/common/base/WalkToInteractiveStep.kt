@@ -16,7 +16,7 @@ import java.util.logging.Level
  *  @param forceWeb Forces web where possible
  */
 abstract class WalkToInteractiveStep<T : Interactive>(
-    protected var noInteractableTile: Tile,
+    protected open val noInteractableTile: Tile,
     var conversation: Array<String>? = arrayOf(),
     val forceWeb: Boolean = false,
     val questInformation: QuestInformation
@@ -57,7 +57,7 @@ abstract class WalkToInteractiveStep<T : Interactive>(
                     logger.log(Level.INFO, "Interacting with npc")
                     interact(interactive)
                 } else {
-                    logger.log(Level.INFO, "Walking to npc tile")
+                    logger.log(Level.INFO, "Walking to interactive tile $interactiveTile")
                     walkToTile(interactiveTile)
                 }
             } else {
@@ -103,7 +103,7 @@ abstract class WalkToInteractiveStep<T : Interactive>(
      */
     protected abstract fun getInteractiveTile(interactive: T): Tile
 
-    private fun walkToTile(tile: Tile): WebWalkingResult {
+    protected open fun walkToTile(tile: Tile): WebWalkingResult {
         logger.info("Walking to objective")
         return Movement.builder(tile)
             .setRunMin(20)

@@ -1,3 +1,4 @@
+/*
 package com.open.quester.quest.xmarksthespot
 
 import com.open.quester.quest.xmarksthespot.XMarksTheSpotConstants.VARPBIT_STATE_MASK
@@ -36,4 +37,4 @@ class XMarksTheSpotTests {
             )
         }
     }
-}
+}*/

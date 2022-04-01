@@ -10,14 +10,15 @@ import org.powbot.api.rt4.GroundItem
 import org.powbot.api.rt4.Inventory
 import org.powbot.api.rt4.Movement
 import org.powbot.api.rt4.Players
+import org.powbot.api.rt4.walking.FailureReason
+import org.powbot.api.rt4.walking.WebWalkingResult
 
-class PickupItemStep(
-    private val destinationLocation: Tile,
+open class PickupItemStep(
+    protected open val destinationLocation: Tile,
     private val getGroundItem: () -> GroundItem,
     private val shouldExecute: () -> Boolean,
     private val interaction: String,
-    private val stepText: String,
-    private val information: QuestInformation
+    private val stepText: String
 ) : BaseQuestStep() {
 
     override fun shouldExecute(): Boolean {
@@ -34,11 +35,14 @@ class PickupItemStep(
                 val itemCount = Inventory.count(groundItem.name())
                 Condition.wait(Conditions.waitUntilItemEntersInventory(groundItem.name(), itemCount))
             } else {
-                Movement.builder(groundItem.tile)
+                val result = Movement.builder(groundItem.tile)
                     .setRunMax(10)
                     .setRunMax(50)
                     .setWalkUntil { groundItem.inViewport() && groundItem.reachable() }
                     .move()
+                if (result.failureReason == FailureReason.NoPath) {
+                    walkToDestination()
+                }
             }
         } else {
             if (destinationLocation.tile().floor == Players.local()
@@ -49,18 +53,21 @@ class PickupItemStep(
                     getGroundItem.invoke() != GroundItem.Nil // TODO Check if need to eat later
                 }
             } else {
-                logger.info("Walking to destination")
-                Movement.builder(destinationLocation)
-                    .setRunMax(10)
-                    .setRunMax(50)
-                    .setWalkUntil {
-                        // TODO Eat food if needed later
-                        destinationLocation.tile().floor == Players.local()
-                            .tile().floor && destinationLocation.matrix().inViewport(true)
-                    }
-                    .move()
+                walkToDestination()
             }
         }
+    }
+    protected open fun walkToDestination() : WebWalkingResult {
+        logger.info("Walking to destination")
+        return Movement.builder(destinationLocation)
+            .setRunMax(10)
+            .setRunMax(50)
+            .setWalkUntil {
+                // TODO Eat food if needed later
+                destinationLocation.tile().floor == Players.local()
+                    .tile().floor && destinationLocation.matrix().inViewport(true)
+            }
+            .move()
     }
 
     override fun stepName(): String {

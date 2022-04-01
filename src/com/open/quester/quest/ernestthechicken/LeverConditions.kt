@@ -30,7 +30,6 @@ import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_GA
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_GATE_SEVEN
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_GATE_EIGHT
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.VARPBIT_LEVERS
-import org.powbot.api.Condition
 import org.powbot.api.Point
 import org.powbot.api.Tile
 import org.powbot.api.rt4.*
@@ -77,8 +76,7 @@ class LeverConditions(val questInformation: QuestInformation) {
                     AREA_OIL_CAN.contains(Players.local()) && Inventory.count(ITEM_OIL_CAN) == 0
                 },
                 "Take",
-                "Picking up oil can",
-                questInformation
+                "Picking up oil can"
             ),
             openGate(TILE_GATE_CAN, leaveOilGateWait, leaveOilGate, -1, 0),
         )

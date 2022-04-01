@@ -54,9 +54,6 @@ object PlagueCityConstants {
     val CONVERSATION_BRAVEK = arrayOf("This is really important though!", "Do you know what's in the cure?")
     val CONVERSATION_BRAVEK_AGAIN = arrayOf("They won't listen to me!")
 
-    const val ITEM_BUCKET_OF_WATER = "Bucket of water"
-    const val ID_BUCKET_OF_WATER = -1
-
     const val NAME_PIPE = "Pipe"
     const val NAME_GRILL = "Grill"
     const val ACTION_GRILL = "Open"

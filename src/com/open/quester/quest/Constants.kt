@@ -12,10 +12,13 @@ object Constants {
     const val ITEM_GARLIC = "Garlic"
     const val ITEM_ROPE = "Rope"
     const val ITEM_MILK = "Bucket of milk"
+    const val ITEM_BUCKET_OF_WATER = "Bucket of water"
 
+    var BANK_AL_KHRAID: Tile = Tile(3269, 3167, 0)
     val BANK_DRAYNOR = Tile(3093, 3243)
-    val BANK_LUMBRIDGE = Tile(3208, 3218, 2)
+    val BANK_EDGEVILLE_NE = Tile(3096, 3496)
     val BANK_EAST_FALADOR = Tile(3013, 3356)
+    val BANK_LUMBRIDGE = Tile(3208, 3218, 2)
     val BANK_VARROCK_WEST_SOUTH_SIDE = Tile(3185, 3436)
     val BANK_VARROCK_EAST = Tile(3253, 3420)
     val BANK_WEST_FALADOR = Tile(2946, 3368)
@@ -44,6 +47,17 @@ object Constants {
         const val ITEM_STEEL_PICKAXE = "Steel pickaxe"
         const val ITEM_IRON_PICKAXE = "Iron pickaxe"
         const val ITEM_BRONZE_PICKAXE = "Bronze pickaxe"
+
+        const val ITEM_RUNE_NATURE = "Nature rune"
+        const val ITEM_RUNE_COSMIC = "Cosmic rune"
+        const val ITEM_RUNE_WATER = "Water rune"
+        const val ITEM_RUNE_AIR = "Air rune"
+        const val ITEM_RUNE_LAW = "Law rune"
+        const val ITEM_RUNE_MIND = "Mind rune"
+        const val ITEM_RUNE_CHAOS = "Chaos rune"
+
+        const val ITEM_RUNE_FIRE = "Fire rune"
+        const val ITEM_RUNE_EARTH = "Earth rune"
 
         val REQUIREMENT_ITEM_AXE = arrayOf(
             ItemRequirement(

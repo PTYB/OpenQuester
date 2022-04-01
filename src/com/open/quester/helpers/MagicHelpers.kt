@@ -58,9 +58,9 @@ object MagicHelpers {
 enum class AutoCastSpell(val spell: Magic.Spell?, val varpbitValue: Int, val component: Int) {
     NONE(null, 0, 0),
     AIR_STRIKE(Magic.Spell.WIND_STRIKE, 3, 1),
-    WATER_STRIKE(Magic.Spell.WATER_STRIKE, 17, 2),
+    WATER_STRIKE(Magic.Spell.WATER_STRIKE, 5, 2),
     EARTH_STRIKE(Magic.Spell.EARTH_STRIKE, 19, 3),
-    FIRE_STRIKE(Magic.Spell.FIRE_STRIKE, 21, 4),
+    FIRE_STRIKE(Magic.Spell.FIRE_STRIKE, 9, 4),
     WIND_BOLT(Magic.Spell.WIND_BOLT, 11, 5),
     WATER_BOLT(Magic.Spell.WATER_BOLT, 13, 6),
     EARTH_BOLT(Magic.Spell.EARTH_BOLT, 15, 7),

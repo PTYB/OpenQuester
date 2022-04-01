@@ -1,3 +1,4 @@
+/*
 package com.open.quester.quest.daddyshome
 
 import com.open.quester.quest.daddyshome.DaddysHomeConstants.FAR_STOOL_SHIFT
@@ -44,4 +45,4 @@ class DaddysHomeTests {
             )
         }
     }
-}
+}*/

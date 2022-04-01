@@ -17,7 +17,7 @@ import org.powbot.api.rt4.Npcs
  *  @param stepName Text you wish to display in paint for the current step
  *  @param npcName Name of the npc you wish to talk to
  */
-class SimpleConversationStep(
+open class SimpleConversationStep(
     val npcName: String,
     npcTile: Tile,
     conversation: Array<String>,

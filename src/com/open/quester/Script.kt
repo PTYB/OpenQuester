@@ -2,18 +2,23 @@ package com.open.quester
 
 import com.google.common.eventbus.Subscribe
 import com.open.quester.common.base.BaseQuest
+import com.open.quester.helpers.SystemMessageManager
 import com.open.quester.models.QuestInformation
 import com.open.quester.models.QuestRunnerState
 import com.open.quester.models.SetupResult
 import com.open.quester.quest.daddyshome.DaddysHome
 import com.open.quester.quest.doricsquest.DoricsQuest
 import com.open.quester.quest.druidicritual.DruidicRitual
+import com.open.quester.quest.entertheabyss.EnterTheAbyss
 import com.open.quester.quest.ernestthechicken.ErnestTheChicken
 import com.open.quester.quest.gertrudescat.GertrudesCat
+import com.open.quester.quest.lostcity.LostCity
+import com.open.quester.quest.naturalhistory.NaturalHistory
 import com.open.quester.quest.plaguecity.PlagueCity
 import com.open.quester.quest.romeoandjuliet.RomeoAndJuliet
 import com.open.quester.quest.runemysteries.RuneMysteries
 import com.open.quester.quest.sheepshearer.SheepShearer
+import com.open.quester.quest.templeoftheeye.TempleOfTheEye
 import com.open.quester.quest.theknightssword.TheKnightsSword
 import com.open.quester.quest.vampyreslayer.VampyreSlayer
 import com.open.quester.quest.witchespotion.WitchesPotion
@@ -34,7 +39,7 @@ import java.util.logging.Logger
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.5",
+    version = "1.0.6",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
@@ -43,8 +48,9 @@ import java.util.logging.Logger
         ScriptConfiguration(
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
             "Dorics Quest",
-            ["Dorics Quest", "Druidic Ritual", "Ernest the Chicken","Gertrudes Cat","Plague City", "Romeo & Juliet",
-                "Rune Mysteries", "Sheep Shearer", "The Knights Sword", "Vampyre Slayer", "Witch's Potion",
+            ["Dorics Quest", "Druidic Ritual", "Enter the Abyss", "Ernest the Chicken", "Gertrudes Cat", "Lost City",
+                "Natural History", "Plague City", "Romeo & Juliet", "Rune Mysteries", "Sheep Shearer",
+                "Temple of the eye", "The Knights Sword", "Vampyre Slayer", "Witch's Potion",
                 "X Marks The Spot"]
         ),
         ScriptConfiguration(
@@ -67,7 +73,9 @@ import java.util.logging.Logger
             OptionType.STRING,
             allowedValues = arrayOf(
                 "",
-                "WIND_STRIKE"
+                "WIND_STRIKE",
+                "WATER_STRIKE",
+                "FIRE_STRIKE",
             ),
         ),
         ScriptConfiguration(
@@ -146,6 +154,7 @@ class Script : AbstractScript() {
             Varpbits.THE_DIG_SITE -> TODO()
             Varpbits.DORICS_QUEST -> DoricsQuest(questInformation)
             Varpbits.DRUIDIC_RITUAL -> DruidicRitual(questInformation)
+            Varpbits.ENTER_THE_ABYSS -> EnterTheAbyss(questInformation)
             Varpbits.ERNEST_THE_CHICKEN -> ErnestTheChicken(questInformation)
             Varpbits.FIGHT_ARENA -> TODO()
             Varpbits.GERTRUDES_CAT -> GertrudesCat(questInformation)
@@ -154,8 +163,8 @@ class Script : AbstractScript() {
             Varpbits.HAND_IN_THE_SAND -> TODO()
             Varpbits.HAZEEL_CULT -> TODO()
             Varpbits.IMP_CATCHER -> TODO()
-            Varpbits.LOST_CITY -> TODO()
-            Varpbits.NATURAL_HISTORY -> TODO()
+            Varpbits.LOST_CITY -> LostCity(questInformation)
+            Varpbits.NATURAL_HISTORY -> NaturalHistory(questInformation)
             Varpbits.OBSERVATORY_QUEST -> TODO()
             Varpbits.PLAGUE_CITY -> PlagueCity(questInformation)
             Varpbits.PRIEST_IN_PERIL -> TODO()
@@ -164,6 +173,7 @@ class Script : AbstractScript() {
             Varpbits.RUNE_MYSTERIES -> RuneMysteries(questInformation)
             Varpbits.SEA_SLUG -> TODO()
             Varpbits.SHEEP_SHEARER -> SheepShearer(questInformation)
+            Varpbits.TEMPLE_OF_THE_EYE -> TempleOfTheEye(questInformation)
             Varpbits.THE_KNIGHTS_SWORD -> TheKnightsSword(questInformation)
             Varpbits.THE_RESTLESS_GHOST -> TODO()
             Varpbits.TREE_GNOME_VILLAGE -> TODO()
@@ -182,25 +192,28 @@ class Script : AbstractScript() {
         val hasRequirements = getOption<Boolean>("HasRequirements")
         val information = Varpbits.values().first { it.questName == questName }
         val spellText = getOption<String>("Spell")
-        updateQuestConfiguration(food, hasRequirements, information, spellText)
+        updateQuestConfiguration(food, hasRequirements, information, spellText, questName)
     }
 
     private fun updateQuestConfiguration(
         foodName: String, hasRequirements: Boolean, varpbits: Varpbits,
-        spellText: String?
+        spellText: String?, questName: String
     ) {
         val weapon = Equipment.itemAt(Equipment.Slot.MAIN_HAND)
 
-        val spell = if (weapon == Item.Nil || spellText.isNullOrEmpty()) {
-            null
-        } else {
-            val firstItemName = weapon.name()
-            if (firstItemName.contains("wand", true) || firstItemName.contains("staff", true)) {
+        val spell =
+            if (questName == Varpbits.LOST_CITY.questName) {
                 Magic.Spell.valueOf(getOption("Spell"))
-            } else {
+            } else if (weapon == Item.Nil || spellText.isNullOrEmpty()) {
                 null
+            } else {
+                val firstItemName = weapon.name()
+                if (firstItemName.contains("wand", true) || firstItemName.contains("staff", true)) {
+                    Magic.Spell.valueOf(getOption("Spell"))
+                } else {
+                    null
+                }
             }
-        }
 
         // TODO Get half names etc for food
         questInformation =
@@ -226,9 +239,10 @@ class Script : AbstractScript() {
     fun messaged(messageEvent: MessageEvent) {
         val currentQuest = quest ?: return
         currentQuest.handleMessage(messageEvent)
+        SystemMessageManager.messageRecieved(messageEvent)
     }
 }
 
 fun main(args: Array<String>) {
-    ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5625", true, false)
+    ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5585", true, false)
 }
