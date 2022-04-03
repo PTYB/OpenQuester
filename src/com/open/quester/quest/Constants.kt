@@ -15,6 +15,7 @@ object Constants {
     const val ITEM_BUCKET_OF_WATER = "Bucket of water"
 
     var BANK_AL_KHRAID: Tile = Tile(3269, 3167, 0)
+    val BANK_SOUTH_ARDOUGNE = Tile(2654, 3283)
     val BANK_DRAYNOR = Tile(3093, 3243)
     val BANK_EDGEVILLE_NE = Tile(3096, 3496)
     val BANK_EAST_FALADOR = Tile(3013, 3356)

@@ -2,9 +2,7 @@ package com.open.quester.helpers
 
 import org.powbot.api.Condition
 import org.powbot.api.Random
-import org.powbot.api.rt4.Combat
-import org.powbot.api.rt4.Inventory
-import org.powbot.api.rt4.Item
+import org.powbot.api.rt4.*
 
 object CombatHelper {
     private var lowerAmount = 40
@@ -66,5 +64,14 @@ object CombatHelper {
         } else {
             "Eat"
         }
+    }
+
+    fun isNpcAttackingMe(npc: Npc): Boolean {
+        if (npc.interacting() !is Player) {
+            return false
+        }
+        val interacting = npc.interacting()
+        val targetPlayer = interacting to Player
+        return targetPlayer.first.name == Players.local().name
     }
 }

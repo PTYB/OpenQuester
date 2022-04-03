@@ -49,7 +49,8 @@ class TalkToNpcIngame(
 
     override val noInteractableTile: Tile
         get() {
-            if (portalTile == Tile.Nil) {
+            // Ghetto fix for instance changing by checking distance. Will do a proper fix next time I go through quest.
+            if (portalTile == Tile.Nil || portalTile.distanceTo(Players.local()) > 100) {
                 portalTile = Objects.nearestGameObject(MASSIVE_PORTAL_ID).tile
             }
 

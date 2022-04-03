@@ -5,7 +5,7 @@ import org.powbot.api.Condition
 import org.powbot.api.Tile
 import org.powbot.api.rt4.Npc
 
-class SimpleNpcStep(
+open class SimpleNpcStep(
     noInteractableTile: Tile,
     conversation: Array<String>? = arrayOf(),
     val interactive: () -> Npc,

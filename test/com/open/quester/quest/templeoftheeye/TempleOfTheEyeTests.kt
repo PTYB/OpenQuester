@@ -1,4 +1,3 @@
-
 package com.open.quester.quest.templeoftheeye
 
 import com.open.quester.quest.templeoftheeye.TempleOfTheEyeConstants.VARPBIT_SHIFT_FELIX_INGAME

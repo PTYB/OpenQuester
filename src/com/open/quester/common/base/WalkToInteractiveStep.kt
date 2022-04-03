@@ -19,7 +19,7 @@ abstract class WalkToInteractiveStep<T : Interactive>(
     protected open val noInteractableTile: Tile,
     var conversation: Array<String>? = arrayOf(),
     val forceWeb: Boolean = false,
-    val questInformation: QuestInformation
+    protected val questInformation: QuestInformation
 ) : BaseQuestStep() {
 
     /**

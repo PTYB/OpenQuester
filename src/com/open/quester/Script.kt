@@ -12,6 +12,7 @@ import com.open.quester.quest.druidicritual.DruidicRitual
 import com.open.quester.quest.entertheabyss.EnterTheAbyss
 import com.open.quester.quest.ernestthechicken.ErnestTheChicken
 import com.open.quester.quest.gertrudescat.GertrudesCat
+import com.open.quester.quest.hazeelcult.HazeelCult
 import com.open.quester.quest.lostcity.LostCity
 import com.open.quester.quest.naturalhistory.NaturalHistory
 import com.open.quester.quest.plaguecity.PlagueCity
@@ -34,12 +35,13 @@ import org.powbot.api.script.paint.Paint
 import org.powbot.api.script.paint.PaintBuilder
 import org.powbot.mobile.script.ScriptManager
 import org.powbot.mobile.service.ScriptUploader
+import org.powbot.quests.quest.witcheshouse.WitchesHouse
 import java.util.logging.Logger
 
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.6",
+    version = "1.0.7",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
@@ -49,9 +51,9 @@ import java.util.logging.Logger
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
             "Dorics Quest",
             ["Dorics Quest", "Druidic Ritual", "Enter the Abyss", "Ernest the Chicken", "Gertrudes Cat", "Lost City",
-                "Natural History", "Plague City", "Romeo & Juliet", "Rune Mysteries", "Sheep Shearer",
-                "Temple of the eye", "The Knights Sword", "Vampyre Slayer", "Witch's Potion",
-                "X Marks The Spot"]
+                "Hazeel Cult", "Natural History", "Plague City", "Romeo & Juliet", "Rune Mysteries",
+                "Sheep Shearer", "Temple of the eye", "The Knights Sword", "Vampyre Slayer", "Witch's House",
+                "Witch's Potion", "X Marks The Spot"]
         ),
         ScriptConfiguration(
             "Food", "Food you wish to eat if required", OptionType.STRING,
@@ -161,7 +163,7 @@ class Script : AbstractScript() {
             Varpbits.FISHING_CONTEST -> TODO()
             Varpbits.GOBLIN_DIPLOMACY -> TODO()
             Varpbits.HAND_IN_THE_SAND -> TODO()
-            Varpbits.HAZEEL_CULT -> TODO()
+            Varpbits.HAZEEL_CULT -> HazeelCult(questInformation)
             Varpbits.IMP_CATCHER -> TODO()
             Varpbits.LOST_CITY -> LostCity(questInformation)
             Varpbits.NATURAL_HISTORY -> NaturalHistory(questInformation)
@@ -180,7 +182,7 @@ class Script : AbstractScript() {
             Varpbits.QUEST_UNDERGROUND_PASS -> TODO()
             Varpbits.VAMPYRE_SLAYER -> VampyreSlayer(questInformation)
             Varpbits.WATERFALL -> TODO()
-            Varpbits.WITCHS_HOUSE -> TODO()
+            Varpbits.WITCHS_HOUSE -> WitchesHouse(questInformation)
             Varpbits.WITCHS_POTION -> WitchesPotion(questInformation)
             Varpbits.X_MARKS_THE_SPOT -> XMarksTheSpot(questInformation)
         }
@@ -216,8 +218,7 @@ class Script : AbstractScript() {
             }
 
         // TODO Get half names etc for food
-        questInformation =
-            QuestInformation(varpbits, arrayOf(foodName), weapon, spell)
+        questInformation = QuestInformation(varpbits, arrayOf(foodName), weapon, spell)
         quest = getQuest(questInformation!!)
         quest!!.setup()
         if (hasRequirements) {
@@ -244,5 +245,5 @@ class Script : AbstractScript() {
 }
 
 fun main(args: Array<String>) {
-    ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5585", true, false)
+    ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5625", true, false)
 }

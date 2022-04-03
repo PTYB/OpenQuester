@@ -3,6 +3,7 @@ package com.open.quester.quest.templeoftheeye.tasks
 import com.open.quester.common.PickupItemStep
 import com.open.quester.extensions.nearestGameObject
 import com.open.quester.quest.templeoftheeye.TempleOfTheEyeConstants
+import com.open.quester.quest.templeoftheeye.TempleOfTheEyeConstants.MASSIVE_PORTAL_ID
 import org.powbot.api.Condition
 import org.powbot.api.Tile
 import org.powbot.api.rt4.Game
@@ -24,7 +25,7 @@ class PickupItemIngame(
     override val destinationLocation: Tile
         get() {
             if (TalkToNpcIngame.portalTile == Tile.Nil) {
-                TalkToNpcIngame.portalTile = Objects.nearestGameObject(TempleOfTheEyeConstants.MASSIVE_PORTAL_ID).tile
+                TalkToNpcIngame.portalTile = Objects.nearestGameObject(MASSIVE_PORTAL_ID).tile
             }
 
             return if (TalkToNpcIngame.portalTile == Tile.Nil) Game.mapOffset()
@@ -33,7 +34,6 @@ class PickupItemIngame(
 
     override fun walkToDestination(): WebWalkingResult {
         val superResult = super.walkToDestination()
-        logger.info("Super result ${superResult.success}, ${superResult.failureReason}")
         if (superResult.failureReason == FailureReason.NoPath) {
             if (Movement.step(destinationLocation)) {
                 val result =
