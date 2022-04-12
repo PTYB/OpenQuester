@@ -160,7 +160,7 @@ class TempleOfTheEye(information: QuestInformation) : BaseQuest(information) {
 
     val talkToSedridor = SimpleConversationStep(
         NAME_SEDRIDOR, TILE_SEDRIDOR,
-        CONVERSATION_SEDRIDOR, "Talking to mage in wildy",
+        CONVERSATION_SEDRIDOR, "Talking to Sedridor",
         information
     )
 
@@ -265,12 +265,12 @@ class TempleOfTheEye(information: QuestInformation) : BaseQuest(information) {
         PickupItemIngame(
             Tile.Nil, { GroundItems.stream().name(ITEM_BRONZE_PICKAXE).first() },
             { Inventory.count(ITEM_BRONZE_PICKAXE) == 0 }, "Take", "Picking up pickaxe",
-            OFFSET_FELIX
+            OFFSET_FELIX, information
         ),
         PickupItemIngame(
             Tile.Nil, { GroundItems.stream().name(ITEM_CHISEL).first() },
             { Inventory.count(ITEM_CHISEL) == 0 }, "Take", "Picking up pickaxe",
-            OFFSET_FELIX
+            OFFSET_FELIX, information
         ),
 
         AlterInteraction(

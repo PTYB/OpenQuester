@@ -14,10 +14,18 @@ import org.powbot.api.rt4.*
 class CombatStep(
     val npcTile: Tile,
     val information: QuestInformation,
-    val npcsToAttack: String,
+    val getNpc: () -> Npc,
     val stepText: String,
     val shouldExecute: () -> Boolean = { true },
 ) : BaseQuestStep() {
+
+    constructor(
+        npcTile: Tile,
+        information: QuestInformation,
+        npcsToAttack: String,
+        stepText: String,
+        shouldExecute: () -> Boolean = { true },
+    ) : this(npcTile, information, { Npcs.stream().name(npcsToAttack).nearest().first() }, stepText, shouldExecute)
 
     private var healthToEat = Random.nextInt(40, 53)
     private var setup = false
@@ -56,13 +64,13 @@ class CombatStep(
             inCombat(npcAttackingMe)
             return true
         } else {
-            val nearbyNpc = Npcs.stream().name(npcsToAttack).nearest().first()
+            val nearbyNpc = getNpc.invoke()
             if (nearbyNpc == Npc.Nil) {
                 Movement.builder(npcTile)
                     .setRunMax(10)
                     .setRunMax(30)
                     .setWalkUntil {
-                        val npc = Npcs.stream().name(npcsToAttack).nearest().first()
+                        val npc = getNpc.invoke()
                         npc != Npc.Nil && npc.inViewport() && npc.reachable()
                     }
                     .move()

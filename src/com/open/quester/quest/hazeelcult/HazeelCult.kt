@@ -98,7 +98,7 @@ class HazeelCult(information: QuestInformation) : BaseQuest(information) {
                         .nearest().first() != GroundItem.Nil
                 },
                 "Take", "Picking up item"
-            ),
+                , information),
             SimpleNpcStep(
                 TILE_CERIL_UPSTAIRS, arrayOf(),
                 { Npcs.stream().name(NAME_CERIL).filtered { it.floor() != 0 }.first() },
@@ -122,7 +122,7 @@ class HazeelCult(information: QuestInformation) : BaseQuest(information) {
                         .nearest().first() != GroundItem.Nil
                 },
                 "Take", "Picking up item"
-            ),
+                , information),
             SetupWeaponStep(information),
             KillNpcStep(TILE_ALOMONE, { Npcs.nearestNpc(NAME_ALOMONE) }, arrayOf(ITEM_ARMOUR), {
                 GroundItems.stream().name(ITEM_ARMOUR)

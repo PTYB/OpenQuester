@@ -2,6 +2,7 @@ package com.open.quester.quest.templeoftheeye.tasks
 
 import com.open.quester.common.PickupItemStep
 import com.open.quester.extensions.nearestGameObject
+import com.open.quester.models.QuestInformation
 import com.open.quester.quest.templeoftheeye.TempleOfTheEyeConstants
 import com.open.quester.quest.templeoftheeye.TempleOfTheEyeConstants.MASSIVE_PORTAL_ID
 import org.powbot.api.Condition
@@ -19,8 +20,9 @@ class PickupItemIngame(
     shouldExecute: () -> Boolean,
     interaction: String,
     stepText: String,
-    val offset: Tile
-) : PickupItemStep(destinationLocation, getGroundItem, shouldExecute, interaction, stepText) {
+    val offset: Tile,
+    information: QuestInformation,
+) : PickupItemStep(destinationLocation, getGroundItem, shouldExecute, interaction, stepText, information) {
 
     override val destinationLocation: Tile
         get() {

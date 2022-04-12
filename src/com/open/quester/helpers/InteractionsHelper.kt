@@ -33,6 +33,26 @@ object InteractionsHelper {
         item: Item,
         interactive: Interactive
     ): Boolean {
+        val interactiveName = if (interactive is GameObject) {
+            interactive.name
+        } else if (interactive is Npc) {
+            interactive.name
+        } else {
+            return false
+        }
+        return if (item.interact("Use") && Inventory.selectedItem().name() == item.name()) {
+            val menu = { mc: MenuCommand -> mc.action == "Use" && mc.option == "${item.name()} -> $interactiveName" }
+            return interactive.interact(menu)
+        } else {
+            false
+        }
+    }
+
+    fun useItemOnInteractive(
+        itemName: String,
+        interactive: Interactive
+    ): Boolean {
+        val item = Inventory.stream().name(itemName).first()
         return if (item.interact("Use") && Inventory.selectedItem().name() == item.name()) {
             return interactive.interact("Use")
         } else {

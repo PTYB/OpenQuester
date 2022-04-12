@@ -2,6 +2,7 @@ package com.open.quester.common
 
 import com.open.quester.common.base.BaseQuestStep
 import com.open.quester.extensions.count
+import com.open.quester.helpers.CombatHelper
 import com.open.quester.models.ItemRequirement
 import com.open.quester.models.ItemRequirementCondition
 import com.open.quester.models.QuestInformation
@@ -116,6 +117,9 @@ class BankStep(
                 .setRunMax(10)
                 .setRunMax(60)
                 .setWalkUntil {
+                    if (CombatHelper.shouldEat(*questInformation.foodName)) {
+                        CombatHelper.eatFood(*questInformation.foodName)
+                    }
                     // TODO Check if needs to eat here when doing combat quests.
                     bankTile.distanceTo(Players.local()) < 3
                 }

@@ -24,7 +24,7 @@ object TempleOfTheEyeConstants {
 
     const val NAME_DARK_MAGE = "Dark Mage"
     val TILE_DARK_MAGE = Tile(3039, 4835)
-    val CONVERSATION_DARK_MAGE = arrayOf("I need your help with an amulet.",
+    val CONVERSATION_DARK_MAGE = arrayOf("I need your help with an amulet.", "Could you help me with that amulet now?",
         "Yes.")// If its in varrock so teleport
 
     val AREA_FIRE_ALTAR = Area(Tile(2556, 4863), Tile(2618, 4807))

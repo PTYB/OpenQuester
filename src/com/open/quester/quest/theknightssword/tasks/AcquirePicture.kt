@@ -9,7 +9,7 @@ import com.open.quester.quest.theknightssword.TheKnightsSwordConstants.TILE_PICT
 import org.powbot.api.Condition
 import org.powbot.api.rt4.*
 
-class AcquirePicture() : BaseQuestStep() {
+class AcquirePicture : BaseQuestStep() {
 
     override fun shouldExecute(): Boolean {
         return Inventory.count(ITEM_PORTRAIT) == 0

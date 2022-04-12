@@ -14,16 +14,19 @@ object Constants {
     const val ITEM_MILK = "Bucket of milk"
     const val ITEM_BUCKET_OF_WATER = "Bucket of water"
 
-    var BANK_AL_KHRAID: Tile = Tile(3269, 3167, 0)
-    val BANK_SOUTH_ARDOUGNE = Tile(2654, 3283)
+    const val ACTION_TALK_TO = "Talk-to"
+
+    val BANK_AL_KHRAID: Tile = Tile(3269, 3167, 0)
+    val BANK_CANIFIS = Tile(3510, 4380)
     val BANK_DRAYNOR = Tile(3093, 3243)
     val BANK_EDGEVILLE_NE = Tile(3096, 3496)
     val BANK_EAST_FALADOR = Tile(3013, 3356)
     val BANK_LUMBRIDGE = Tile(3208, 3218, 2)
+    val BANK_NORTH_ARDOUGNE = Tile(2615, 3332)
+    val BANK_SOUTH_ARDOUGNE = Tile(2654, 3283)
     val BANK_VARROCK_WEST_SOUTH_SIDE = Tile(3185, 3436)
     val BANK_VARROCK_EAST = Tile(3253, 3420)
     val BANK_WEST_FALADOR = Tile(2946, 3368)
-    val BANK_NORTH_ARDOUGNE = Tile(2615, 3332)
 
     object ItemRequirements {
         const val NAME_MILK = "Bucket of milk"

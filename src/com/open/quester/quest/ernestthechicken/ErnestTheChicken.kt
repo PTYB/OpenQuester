@@ -99,7 +99,7 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
             },
             "Take",
             "Picking up fish food"
-        )
+            , information)
         val pickupPoison = PickupItemStep(
             TILE_POISON,
             { GroundItems.stream().name(ITEM_POISON).first() },
@@ -113,7 +113,7 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
             },
             "Take",
             "Picking up poison"
-        )
+            , information)
         val makePoisonedFood = CombineItemStep(
             ITEM_FISH_FOOD, ITEM_POISON, "Making poisoned food",
             { !poisoned && Inventory.count(ITEM_FISH_FOOD) == 1 && Inventory.count(ITEM_POISON) == 1 }, false
@@ -122,7 +122,7 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
         val pickupSpade = PickupItemStep(
             TILE_SPADE, { GroundItems.stream().name(ITEM_SPADE).first() },
             { Inventory.count(ITEM_SPADE) == 0 }, "Take", "Picking up spade"
-        )
+            , information)
 
         val getKey = SimpleObjectStep(
             TILE_COMPOST_HEAP,
@@ -171,7 +171,7 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
             TILE_GAUGE, { GroundItems.stream().name(ITEM_RUBBER_TUBE).first() },
             { Inventory.count(ITEM_RUBBER_TUBE) == 0 && Inventory.count(ITEM_KEY) == 1 },
             "Take", "Grabbing tube"
-        )
+            , information)
 
         return arrayOf(
             pickupFishFood,

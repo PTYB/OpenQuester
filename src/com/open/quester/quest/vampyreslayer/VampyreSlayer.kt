@@ -4,6 +4,7 @@ import com.open.quester.common.BankStep
 import com.open.quester.common.CommonMethods.closeQuestComplete
 import com.open.quester.common.QuestTaskList
 import com.open.quester.common.SimpleConversationStep
+import com.open.quester.common.WaitStep
 import com.open.quester.common.base.BaseQuest
 import com.open.quester.common.base.BaseQuestStep
 import com.open.quester.common.base.CombatStep
@@ -104,7 +105,8 @@ class VampyreSlayer(information: QuestInformation) : BaseQuest(information) {
             false
         )
 
-        val talkToHarlow = SimpleConversationStep(NAME_HARLOW, TILE_HARLOW, CONVERSATION_HARLOW, "Talking to Harlow", information)
+        val talkToHarlow =
+            SimpleConversationStep(NAME_HARLOW, TILE_HARLOW, CONVERSATION_HARLOW, "Talking to Harlow", information)
         val buyBeer = SimpleConversationStep(
             NAME_BARTENDER, TILE_BARTENDER, CONVERSATION_BARTENDER, "Buying beer", information, false
         ) { Inventory.count("Coins") > 1 && Inventory.count("Beer") == 0 }
@@ -118,7 +120,14 @@ class VampyreSlayer(information: QuestInformation) : BaseQuest(information) {
 
     private fun killDracula(): QuestTaskList {
         val talkToHarlow =
-            SimpleConversationStep(NAME_HARLOW, TILE_HARLOW, CONVERSATION_HARLOW, "Talking to Harlow", information,false) {
+            SimpleConversationStep(
+                NAME_HARLOW,
+                TILE_HARLOW,
+                CONVERSATION_HARLOW,
+                "Talking to Harlow",
+                information,
+                false
+            ) {
                 Inventory.count(NAME_STAKE) == 0
             }
 
@@ -141,10 +150,13 @@ class VampyreSlayer(information: QuestInformation) : BaseQuest(information) {
             false
         )
 
+        val waitStep = WaitStep({ true }, stepText = "Waiting for Drac")
+
         return QuestTaskList(
             talkToHarlow,
             openCoffin,
             killNpc,
+            waitStep,
         )
     }
 }

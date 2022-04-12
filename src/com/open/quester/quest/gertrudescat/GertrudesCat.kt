@@ -56,7 +56,7 @@ class GertrudesCat(information: QuestInformation) : BaseQuest(information) {
         { Inventory.count(ITEM_SEASONED_SARDINE, ITEM_DOOGLE_LEAVES) == 0 },
         "Take",
         "Picking up doogle leaves"
-    )
+        , information)
 
     private val makeSeasonedSardine = CombineItemStep(
         ITEM_DOOGLE_LEAVES, ITEM_SARDINE, "Making Seasoned Sardines",

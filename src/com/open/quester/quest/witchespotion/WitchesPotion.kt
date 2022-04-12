@@ -60,7 +60,7 @@ class WitchesPotion(information: QuestInformation) : BaseQuest(information) {
             { GroundItems.stream().name(ITEM_RATS_TAIL).count() > 0 && Inventory.count(ITEM_RATS_TAIL) == 0 },
             "Take",
             "Picking up rat tail"
-        )
+            , information)
         val killRat = CombatStep(TILE_RAT, information, NAME_RAT, "Killing rat")
         { Inventory.count(ITEM_RATS_TAIL) == 0 }
         return QuestTaskList(pickupRatTail, killRat, returnWithItems)

@@ -18,7 +18,8 @@ open class PickupItemStep(
     private val getGroundItem: () -> GroundItem,
     private val shouldExecute: () -> Boolean,
     private val interaction: String,
-    private val stepText: String
+    private val stepText: String,
+    private val information: QuestInformation
 ) : BaseQuestStep() {
 
     override fun shouldExecute(): Boolean {
@@ -30,7 +31,11 @@ open class PickupItemStep(
 
         val groundItem = getGroundItem.invoke()
 
+        logger.info("Ground item $groundItem")
         if (groundItem != GroundItem.Nil) {
+            if (Inventory.isFull()){
+                Inventory.stream().name(*information.foodName).first().interact("Drop")
+            }
             if (groundItem.inViewport() && groundItem.reachable() && groundItem.interact(interaction)) {
                 val itemCount = Inventory.count(groundItem.name())
                 Condition.wait(Conditions.waitUntilItemEntersInventory(groundItem.name(), itemCount))
@@ -57,7 +62,8 @@ open class PickupItemStep(
             }
         }
     }
-    protected open fun walkToDestination() : WebWalkingResult {
+
+    protected open fun walkToDestination(): WebWalkingResult {
         logger.info("Walking to destination")
         return Movement.builder(destinationLocation)
             .setRunMax(10)

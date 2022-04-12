@@ -11,7 +11,7 @@ class AnswerQuestion : BaseQuestStep() {
     }
 
     override fun run() {
-        if (Chat.sendInput(11)) {
+        if (Chat.sendInput("11")) {
             Condition.wait { !Chat.chatting() }
             Condition.wait { Chat.chatting() }
         }

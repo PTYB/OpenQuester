@@ -90,7 +90,7 @@ class DaddysHome(information: QuestInformation) : BaseQuest(information) {
         PickupItemStep(
             TILE_SAW, { GroundItems.stream().name(ITEM_SAW).at(TILE_SAW).nearest().first() },
             { Inventory.count(ITEM_SAW) == 0 }, "Take", "Picking up saw"
-        ),
+            , information),
         talkToYarlo
     )
 

@@ -11,7 +11,7 @@ import java.util.concurrent.Callable
 
 class KillNpcStep(
     destinationTile: Tile,
-    getNpc: () -> Npc,
+    val getNpc: () -> Npc,
     groundItemNames: Array<String>?,
     val getGroundItem: Callable<List<GroundItem>>?,
     shouldExecute: () -> Boolean,
@@ -27,18 +27,26 @@ class KillNpcStep(
     private val itemNames = groundItemNames?.toList()?.toTypedArray() ?: emptyArray()
 
     override fun run() {
+        val nearbyDieingNpc = getNpc.invoke()
         val interactingNpc = Npcs.stream().filtered { CombatHelper.isNpcAttackingMe(it) }.first()
-        if (interactingNpc == Npc.Nil) {
+
+        if (nearbyDieingNpc.healthPercent() == 0 && interactingNpc == Npc.Nil) {
+            waitToLootItems()
+        } else if (interactingNpc == Npc.Nil) {
             super.run()
         } else {
             if (interactingNpc.healthPercent() == 0) {
-                val result = Condition.wait { getGroundItem != null && getGroundItem.call().isNotEmpty() }
-                if (result) {
-                    lootItems()
-                }
+                waitToLootItems()
             } else {
                 attackOrEat(interactingNpc)
             }
+        }
+    }
+
+    private fun waitToLootItems() {
+        val result = Condition.wait { getGroundItem != null && getGroundItem.call().isNotEmpty() }
+        if (result) {
+            lootItems()
         }
     }
 
@@ -57,6 +65,9 @@ class KillNpcStep(
                     .move()
             }
 
+            if (Inventory.isFull()) {
+                Inventory.stream().name(*questInformation.foodName).first().interact("Eat")
+            }
             val originalCount = Inventory.stream().name(groundItem.name()).sumOf { obj: Item -> obj.stack }
             if (groundItem.inViewport() && groundItem.interact("Take")) {
                 Conditions.waitUntilItemEntersInventory(groundItem.name(), originalCount)

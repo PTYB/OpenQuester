@@ -118,7 +118,7 @@ class LostCity(information: QuestInformation) : BaseQuest(information) {
         val getBronzeAxe = ManualCastSpells("Zombie", "Bronze axe", information, {
             Inventory.stream().name("Bronze axe")
                 .count() == 0L && AREA_LOST_CITY_DUNGEON.contains(Players.local())
-        }, Tile(2838, 9772, 0))
+        }, Tile(2836, 9772, 0))
 
         val walkToRoom = WalkToArea(
             AREA_END_ROOM,

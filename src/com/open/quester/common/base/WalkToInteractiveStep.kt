@@ -54,7 +54,6 @@ abstract class WalkToInteractiveStep<T : Interactive>(
             if (interactive.valid() && interactive.inViewport(true)) {
                 val interactiveTile = getInteractiveTile(interactive).derive(pointVariance.x, pointVariance.y)
                 if (interactive.inViewport() && interactiveTile.reachable()) {
-                    logger.log(Level.INFO, "Interacting with npc")
                     interact(interactive)
                 } else {
                     logger.log(Level.INFO, "Walking to interactive tile $interactiveTile")

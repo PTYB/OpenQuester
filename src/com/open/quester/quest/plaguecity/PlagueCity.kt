@@ -398,7 +398,7 @@ class PlagueCity(information: QuestInformation) : BaseQuest(information) {
                 GroundItems.stream().name(ITEM_PICTURE_OF_ELENA).nearest().first()
             }, { Inventory.stream().name(ITEM_PICTURE_OF_ELENA).count().toInt() == 0 },
             "Take", "Picking up picture, nothing sus."
-        )
+            , information)
 
         return QuestTaskList(pickupPicture, talkToEdmond)
     }

@@ -1,6 +1,7 @@
 package com.open.quester
 
 import com.google.common.eventbus.Subscribe
+import com.open.quester.Varpbits.*
 import com.open.quester.common.base.BaseQuest
 import com.open.quester.helpers.SystemMessageManager
 import com.open.quester.models.QuestInformation
@@ -15,13 +16,19 @@ import com.open.quester.quest.gertrudescat.GertrudesCat
 import com.open.quester.quest.hazeelcult.HazeelCult
 import com.open.quester.quest.lostcity.LostCity
 import com.open.quester.quest.naturalhistory.NaturalHistory
+import com.open.quester.quest.naturespirit.NatureSpirit
 import com.open.quester.quest.plaguecity.PlagueCity
+import com.open.quester.quest.priestinperil.PriestInPeril
+import com.open.quester.quest.princealirescue.PrinceAliRescue
 import com.open.quester.quest.romeoandjuliet.RomeoAndJuliet
 import com.open.quester.quest.runemysteries.RuneMysteries
 import com.open.quester.quest.sheepshearer.SheepShearer
 import com.open.quester.quest.templeoftheeye.TempleOfTheEye
 import com.open.quester.quest.theknightssword.TheKnightsSword
+import com.open.quester.quest.therestlessghost.TheRestlessGhost
+import com.open.quester.quest.treegnomevillage.TreeGnomeVillage
 import com.open.quester.quest.vampyreslayer.VampyreSlayer
+import com.open.quester.quest.waterfall.Waterfall
 import com.open.quester.quest.witchespotion.WitchesPotion
 import com.open.quester.quest.xmarksthespot.XMarksTheSpot
 import com.open.quester.tasks.GrandExchangeTask
@@ -41,7 +48,7 @@ import java.util.logging.Logger
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.7",
+    version = "1.0.8",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
@@ -51,9 +58,10 @@ import java.util.logging.Logger
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
             "Dorics Quest",
             ["Dorics Quest", "Druidic Ritual", "Enter the Abyss", "Ernest the Chicken", "Gertrudes Cat", "Lost City",
-                "Hazeel Cult", "Natural History", "Plague City", "Romeo & Juliet", "Rune Mysteries",
-                "Sheep Shearer", "Temple of the eye", "The Knights Sword", "Vampyre Slayer", "Witch's House",
-                "Witch's Potion", "X Marks The Spot"]
+                "Hazeel Cult", "Natural History", "Nature Spirit",
+                "Plague City", "Priest in peril", "Prince Ali Rescue", "Romeo & Juliet", "Rune Mysteries",
+                "Sheep Shearer", "Temple of the eye", "The Knights Sword", "The Restless Ghost",
+                "Tree Gnome Village", "Vampyre Slayer", "Waterfall", "Witch's House", "Witch's Potion", "X Marks The Spot"]
         ),
         ScriptConfiguration(
             "Food", "Food you wish to eat if required", OptionType.STRING,
@@ -78,6 +86,10 @@ import java.util.logging.Logger
                 "WIND_STRIKE",
                 "WATER_STRIKE",
                 "FIRE_STRIKE",
+                "WIND_BOLT",
+                "WATER_BOLT",
+                "EARTH_BOLT",
+                "FIRE_BOLT",
             ),
         ),
         ScriptConfiguration(
@@ -146,45 +158,47 @@ class Script : AbstractScript() {
 
     private fun getQuest(questInformation: QuestInformation): BaseQuest {
         return when (questInformation.questVarbits) {
-            Varpbits.ANIMAL_MAGNETISM -> TODO()
-            Varpbits.BIOHAZARD -> TODO()
-            Varpbits.BONE_VOYAGE -> TODO()
-            Varpbits.CLIENT_OF_KOUREND -> TODO()
-            Varpbits.COOKS_ASSISTANT -> TODO()
-            Varpbits.DADDYS_HOME -> DaddysHome(questInformation)
-            Varpbits.DEMON_SLAYER -> TODO()
-            Varpbits.THE_DIG_SITE -> TODO()
-            Varpbits.DORICS_QUEST -> DoricsQuest(questInformation)
-            Varpbits.DRUIDIC_RITUAL -> DruidicRitual(questInformation)
-            Varpbits.ENTER_THE_ABYSS -> EnterTheAbyss(questInformation)
-            Varpbits.ERNEST_THE_CHICKEN -> ErnestTheChicken(questInformation)
-            Varpbits.FIGHT_ARENA -> TODO()
-            Varpbits.GERTRUDES_CAT -> GertrudesCat(questInformation)
-            Varpbits.FISHING_CONTEST -> TODO()
-            Varpbits.GOBLIN_DIPLOMACY -> TODO()
-            Varpbits.HAND_IN_THE_SAND -> TODO()
-            Varpbits.HAZEEL_CULT -> HazeelCult(questInformation)
-            Varpbits.IMP_CATCHER -> TODO()
-            Varpbits.LOST_CITY -> LostCity(questInformation)
-            Varpbits.NATURAL_HISTORY -> NaturalHistory(questInformation)
-            Varpbits.OBSERVATORY_QUEST -> TODO()
-            Varpbits.PLAGUE_CITY -> PlagueCity(questInformation)
-            Varpbits.PRIEST_IN_PERIL -> TODO()
-            Varpbits.REGICIDE -> TODO()
-            Varpbits.ROMEO_JULIET -> RomeoAndJuliet(questInformation)
-            Varpbits.RUNE_MYSTERIES -> RuneMysteries(questInformation)
-            Varpbits.SEA_SLUG -> TODO()
-            Varpbits.SHEEP_SHEARER -> SheepShearer(questInformation)
-            Varpbits.TEMPLE_OF_THE_EYE -> TempleOfTheEye(questInformation)
-            Varpbits.THE_KNIGHTS_SWORD -> TheKnightsSword(questInformation)
-            Varpbits.THE_RESTLESS_GHOST -> TODO()
-            Varpbits.TREE_GNOME_VILLAGE -> TODO()
-            Varpbits.QUEST_UNDERGROUND_PASS -> TODO()
-            Varpbits.VAMPYRE_SLAYER -> VampyreSlayer(questInformation)
-            Varpbits.WATERFALL -> TODO()
-            Varpbits.WITCHS_HOUSE -> WitchesHouse(questInformation)
-            Varpbits.WITCHS_POTION -> WitchesPotion(questInformation)
-            Varpbits.X_MARKS_THE_SPOT -> XMarksTheSpot(questInformation)
+            ANIMAL_MAGNETISM -> TODO()
+            BIOHAZARD -> TODO()
+            BONE_VOYAGE -> TODO()
+            CLIENT_OF_KOUREND -> TODO()
+            COOKS_ASSISTANT -> TODO()
+            DADDYS_HOME -> DaddysHome(questInformation)
+            DEMON_SLAYER -> TODO()
+            THE_DIG_SITE -> TODO()
+            DORICS_QUEST -> DoricsQuest(questInformation)
+            DRUIDIC_RITUAL -> DruidicRitual(questInformation)
+            ENTER_THE_ABYSS -> EnterTheAbyss(questInformation)
+            ERNEST_THE_CHICKEN -> ErnestTheChicken(questInformation)
+            FIGHT_ARENA -> TODO()
+            GERTRUDES_CAT -> GertrudesCat(questInformation)
+            FISHING_CONTEST -> TODO()
+            GOBLIN_DIPLOMACY -> TODO()
+            HAND_IN_THE_SAND -> TODO()
+            HAZEEL_CULT -> HazeelCult(questInformation)
+            IMP_CATCHER -> TODO()
+            LOST_CITY -> LostCity(questInformation)
+            NATURAL_HISTORY -> NaturalHistory(questInformation)
+            NATURE_SPIRIT -> NatureSpirit(questInformation)
+            OBSERVATORY_QUEST -> TODO()
+            PLAGUE_CITY -> PlagueCity(questInformation)
+            PRIEST_IN_PERIL -> PriestInPeril(questInformation)
+            PRINCE_ALI_RESCUE -> PrinceAliRescue(questInformation)
+            REGICIDE -> TODO()
+            ROMEO_JULIET -> RomeoAndJuliet(questInformation)
+            RUNE_MYSTERIES -> RuneMysteries(questInformation)
+            SEA_SLUG -> TODO()
+            SHEEP_SHEARER -> SheepShearer(questInformation)
+            TEMPLE_OF_THE_EYE -> TempleOfTheEye(questInformation)
+            THE_KNIGHTS_SWORD -> TheKnightsSword(questInformation)
+            THE_RESTLESS_GHOST -> TheRestlessGhost(questInformation)
+            TREE_GNOME_VILLAGE -> TreeGnomeVillage(questInformation)
+            QUEST_UNDERGROUND_PASS -> TODO()
+            VAMPYRE_SLAYER -> VampyreSlayer(questInformation)
+            WATERFALL -> Waterfall(questInformation)
+            WITCHS_HOUSE -> WitchesHouse(questInformation)
+            WITCHS_POTION -> WitchesPotion(questInformation)
+            X_MARKS_THE_SPOT -> XMarksTheSpot(questInformation)
         }
     }
 
@@ -192,7 +206,7 @@ class Script : AbstractScript() {
         val questName = getOption<String>("Quest Name")
         val food = getOption<String>("Food")
         val hasRequirements = getOption<Boolean>("HasRequirements")
-        val information = Varpbits.values().first { it.questName == questName }
+        val information = values().first { it.questName == questName }
         val spellText = getOption<String>("Spell")
         updateQuestConfiguration(food, hasRequirements, information, spellText, questName)
     }
@@ -204,7 +218,7 @@ class Script : AbstractScript() {
         val weapon = Equipment.itemAt(Equipment.Slot.MAIN_HAND)
 
         val spell =
-            if (questName == Varpbits.LOST_CITY.questName) {
+            if (questName == LOST_CITY.questName) {
                 Magic.Spell.valueOf(getOption("Spell"))
             } else if (weapon == Item.Nil || spellText.isNullOrEmpty()) {
                 null

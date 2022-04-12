@@ -76,8 +76,8 @@ class LeverConditions(val questInformation: QuestInformation) {
                     AREA_OIL_CAN.contains(Players.local()) && Inventory.count(ITEM_OIL_CAN) == 0
                 },
                 "Take",
-                "Picking up oil can"
-            ),
+                "Picking up oil can",
+                questInformation),
             openGate(TILE_GATE_CAN, leaveOilGateWait, leaveOilGate, -1, 0),
         )
     }
