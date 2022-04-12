@@ -48,7 +48,7 @@ import java.util.logging.Logger
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.8",
+    version = "1.0.9",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
