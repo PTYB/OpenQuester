@@ -23,6 +23,7 @@ class KillNpcStep(
     shouldExecute = shouldExecute,
     questInformation = information
 ) {
+    var protectionPrayer: Prayer.Effect? = null
 
     private val itemNames = groundItemNames?.toList()?.toTypedArray() ?: emptyArray()
 
@@ -40,6 +41,18 @@ class KillNpcStep(
             } else {
                 attackOrEat(interactingNpc)
             }
+        }
+    }
+
+    private fun canUsePrayer(): Boolean {
+        if (protectionPrayer == null && Skills.level(Constants.SKILLS_PRAYER) == 0) {
+            return false
+        }
+        return when (protectionPrayer!!) {
+            Prayer.Effect.PROTECT_FROM_MELEE -> Skills.realLevel(Constants.SKILLS_PRAYER) > 43
+            Prayer.Effect.PROTECT_FROM_MISSILES -> Skills.realLevel(Constants.SKILLS_PRAYER) > 40
+            Prayer.Effect.PROTECT_FROM_MAGIC -> Skills.realLevel(Constants.SKILLS_PRAYER) > 37
+            else -> false
         }
     }
 
@@ -84,6 +97,9 @@ class KillNpcStep(
                 Chat.clickContinue()
             }
         } else {
+            if (canUsePrayer() && !Prayer.prayerActive(protectionPrayer!!)) {
+                Prayer.prayer(protectionPrayer!!, true)
+            }
             attackNpc(npc)
         }
     }

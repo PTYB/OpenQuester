@@ -17,7 +17,7 @@ object Constants {
     const val ACTION_TALK_TO = "Talk-to"
 
     val BANK_AL_KHRAID: Tile = Tile(3269, 3167, 0)
-    val BANK_CANIFIS = Tile(3510, 4380)
+    val BANK_CANIFIS = Tile(3512, 3479)
     val BANK_DRAYNOR = Tile(3093, 3243)
     val BANK_EDGEVILLE_NE = Tile(3096, 3496)
     val BANK_EAST_FALADOR = Tile(3013, 3356)

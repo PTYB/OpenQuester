@@ -72,12 +72,12 @@ abstract class WalkToInteractiveStep<T : Interactive>(
     private fun completeChat() {
         logger.info("Completing conversation/cutscene")
         val component = Chat.optionBarComponent()
-        if (component.valid() && component.components().none { conversation!!.contains(it.text()) }
-        ) {
+        if (component.valid() && component.components().none { conversation!!.contains(it.text()) }) {
             if (Players.local().tile().matrix().interact("Walk here")) {
                 Condition.wait { !Chat.chatting() }
             }
         } else {
+
             Chat.completeChat(*conversation!!)
             if (CommonMethods.isInCutscene()) {
                 Condition.wait({ Chat.chatting() || !CommonMethods.isInCutscene() }, 150, 25)

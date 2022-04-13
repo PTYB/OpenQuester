@@ -14,6 +14,7 @@ import com.open.quester.quest.entertheabyss.EnterTheAbyss
 import com.open.quester.quest.ernestthechicken.ErnestTheChicken
 import com.open.quester.quest.gertrudescat.GertrudesCat
 import com.open.quester.quest.hazeelcult.HazeelCult
+import com.open.quester.quest.insearchofthemyreeque.InSearchOfTheMyreque
 import com.open.quester.quest.lostcity.LostCity
 import com.open.quester.quest.naturalhistory.NaturalHistory
 import com.open.quester.quest.naturespirit.NatureSpirit
@@ -58,7 +59,7 @@ import java.util.logging.Logger
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
             "Dorics Quest",
             ["Dorics Quest", "Druidic Ritual", "Enter the Abyss", "Ernest the Chicken", "Gertrudes Cat", "Lost City",
-                "Hazeel Cult", "Natural History", "Nature Spirit",
+                "Hazeel Cult", "In search of the Myreque", "Natural History", "Nature Spirit",
                 "Plague City", "Priest in peril", "Prince Ali Rescue", "Romeo & Juliet", "Rune Mysteries",
                 "Sheep Shearer", "Temple of the eye", "The Knights Sword", "The Restless Ghost",
                 "Tree Gnome Village", "Vampyre Slayer", "Waterfall", "Witch's House", "Witch's Potion", "X Marks The Spot"]
@@ -177,6 +178,7 @@ class Script : AbstractScript() {
             HAND_IN_THE_SAND -> TODO()
             HAZEEL_CULT -> HazeelCult(questInformation)
             IMP_CATCHER -> TODO()
+            IN_SEARCH_OF_THE_MYREQUE -> InSearchOfTheMyreque(questInformation)
             LOST_CITY -> LostCity(questInformation)
             NATURAL_HISTORY -> NaturalHistory(questInformation)
             NATURE_SPIRIT -> NatureSpirit(questInformation)
@@ -259,5 +261,6 @@ class Script : AbstractScript() {
 }
 
 fun main(args: Array<String>) {
-    ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5625", true, false)
+    ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5585", true, false)
+    //ScriptUploader().uploadAndStart("Open Quester", "", "127.0.0.1:5625", true, false)
 }

@@ -33,6 +33,7 @@ enum class Varpbits
     NATURAL_HISTORY("Natural History", 1014, -1),
     OBSERVATORY_QUEST("Observatory Quest", 112, -1),
     NATURE_SPIRIT("Nature Spirit", 307, -1),
+    IN_SEARCH_OF_THE_MYREQUE("In search of the Myreque", 387, -1),
     PLAGUE_CITY("Plague City", 165, 29),
     PRIEST_IN_PERIL("Priest in peril", 302, -1),
     PRINCE_ALI_RESCUE("Prince Ali Rescue", 273, -1),
