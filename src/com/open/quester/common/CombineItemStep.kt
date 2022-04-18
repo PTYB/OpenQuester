@@ -16,6 +16,7 @@ class CombineItemStep(
     private val stepText: String,
     private val shouldExecute: Callable<Boolean>,
     val animation: Boolean = false,
+    val chatOptions: Array<String> = arrayOf(),
 ) : BaseQuestStep() {
 
 
@@ -49,7 +50,7 @@ class CombineItemStep(
                 Chat.chatting() || itemsCount != newItemCount
             }
             if (Chat.chatting()) {
-                Chat.completeChat()
+                Chat.completeChat(*chatOptions)
             }
         }
     }

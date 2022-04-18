@@ -14,8 +14,10 @@ import com.open.quester.quest.entertheabyss.EnterTheAbyss
 import com.open.quester.quest.ernestthechicken.ErnestTheChicken
 import com.open.quester.quest.gertrudescat.GertrudesCat
 import com.open.quester.quest.hazeelcult.HazeelCult
-import com.open.quester.quest.insearchofthemyreeque.InSearchOfTheMyreque
 import com.open.quester.quest.lostcity.LostCity
+import com.open.quester.quest.myreque.darknessofhallowvale.DarknessOfHallowvale
+import com.open.quester.quest.myreque.inaidofthemyreque.InAidOfTheMyreque
+import com.open.quester.quest.myreque.insearchofthemyreeque.InSearchOfTheMyreque
 import com.open.quester.quest.naturalhistory.NaturalHistory
 import com.open.quester.quest.naturespirit.NatureSpirit
 import com.open.quester.quest.plaguecity.PlagueCity
@@ -58,8 +60,11 @@ import java.util.logging.Logger
         ScriptConfiguration(
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
             "Dorics Quest",
-            ["Dorics Quest", "Druidic Ritual", "Enter the Abyss", "Ernest the Chicken", "Gertrudes Cat", "Lost City",
-                "Hazeel Cult", "In search of the Myreque", "Natural History", "Nature Spirit",
+            [//"Darkness of Hawllowvale",
+                "Dorics Quest", "Druidic Ritual", "Enter the Abyss", "Ernest the Chicken",
+                "Gertrudes Cat", "Lost City",
+                "Hazeel Cult", //"In aid of the Myreque",
+                "In search of the Myreque", "Natural History", "Nature Spirit",
                 "Plague City", "Priest in peril", "Prince Ali Rescue", "Romeo & Juliet", "Rune Mysteries",
                 "Sheep Shearer", "Temple of the eye", "The Knights Sword", "The Restless Ghost",
                 "Tree Gnome Village", "Vampyre Slayer", "Waterfall", "Witch's House", "Witch's Potion", "X Marks The Spot"]
@@ -165,6 +170,7 @@ class Script : AbstractScript() {
             CLIENT_OF_KOUREND -> TODO()
             COOKS_ASSISTANT -> TODO()
             DADDYS_HOME -> DaddysHome(questInformation)
+            DARKNESS_OF_HALLOWVALE -> DarknessOfHallowvale(questInformation)
             DEMON_SLAYER -> TODO()
             THE_DIG_SITE -> TODO()
             DORICS_QUEST -> DoricsQuest(questInformation)
@@ -178,6 +184,7 @@ class Script : AbstractScript() {
             HAND_IN_THE_SAND -> TODO()
             HAZEEL_CULT -> HazeelCult(questInformation)
             IMP_CATCHER -> TODO()
+            IN_AID_OF_THE_MYREQUE -> InAidOfTheMyreque(questInformation)
             IN_SEARCH_OF_THE_MYREQUE -> InSearchOfTheMyreque(questInformation)
             LOST_CITY -> LostCity(questInformation)
             NATURAL_HISTORY -> NaturalHistory(questInformation)

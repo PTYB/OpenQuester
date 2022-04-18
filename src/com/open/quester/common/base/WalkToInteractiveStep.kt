@@ -70,14 +70,17 @@ abstract class WalkToInteractiveStep<T : Interactive>(
      *  Completes the chat for the cutscene, will press current tile if prompted for dialogue for which it has no answer.
      */
     private fun completeChat() {
-        logger.info("Completing conversation/cutscene")
         val component = Chat.optionBarComponent()
-        if (component.valid() && component.components().none { conversation!!.contains(it.text()) }) {
+        if (component.visible() && component.components()
+                .none {
+                    logger.info("Text ${it.text()}")
+                    conversation!!.contains(it.text()) }
+        ) {
             if (Players.local().tile().matrix().interact("Walk here")) {
                 Condition.wait { !Chat.chatting() }
             }
         } else {
-
+            logger.info("Completing conversation/cutscene, options ${conversation?.joinToString(",")}")
             Chat.completeChat(*conversation!!)
             if (CommonMethods.isInCutscene()) {
                 Condition.wait({ Chat.chatting() || !CommonMethods.isInCutscene() }, 150, 25)

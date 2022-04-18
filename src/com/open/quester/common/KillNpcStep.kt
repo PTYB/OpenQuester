@@ -45,7 +45,7 @@ class KillNpcStep(
     }
 
     private fun canUsePrayer(): Boolean {
-        if (protectionPrayer == null && Skills.level(Constants.SKILLS_PRAYER) == 0) {
+        if (protectionPrayer == null || Skills.level(Constants.SKILLS_PRAYER) == 0) {
             return false
         }
         return when (protectionPrayer!!) {

@@ -1,7 +1,7 @@
-package com.open.quester.quest.insearchofthemyreeque.leafs
+package com.open.quester.quest.myreque.insearchofthemyreeque.leafs
 
 import com.open.quester.common.base.BaseQuestStep
-import com.open.quester.quest.insearchofthemyreeque.InSearchOfTheMyrequeConstants.AREA_BRIDGE
+import com.open.quester.quest.myreque.insearchofthemyreeque.InSearchOfTheMyrequeConstants.AREA_BRIDGE
 import org.powbot.api.Condition
 import org.powbot.api.rt4.GameObject
 import org.powbot.api.rt4.Objects

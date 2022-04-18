@@ -11,12 +11,14 @@ object Constants {
     const val ITEM_COINS = "Coins"
     const val ITEM_GARLIC = "Garlic"
     const val ITEM_ROPE = "Rope"
+    const val ITEM_BUCKET = "Bucket"
     const val ITEM_MILK = "Bucket of milk"
     const val ITEM_BUCKET_OF_WATER = "Bucket of water"
 
     const val ACTION_TALK_TO = "Talk-to"
 
     val BANK_AL_KHRAID: Tile = Tile(3269, 3167, 0)
+    val BANK_BURG = Tile(3495,3211)
     val BANK_CANIFIS = Tile(3512, 3479)
     val BANK_DRAYNOR = Tile(3093, 3243)
     val BANK_EDGEVILLE_NE = Tile(3096, 3496)

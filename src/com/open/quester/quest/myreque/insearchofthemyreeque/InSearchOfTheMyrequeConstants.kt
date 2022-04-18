@@ -1,4 +1,4 @@
-package com.open.quester.quest.insearchofthemyreeque
+package com.open.quester.quest.myreque.insearchofthemyreeque
 
 import com.open.quester.models.ItemRequirement
 import com.open.quester.models.ItemRequirementCondition
@@ -57,13 +57,8 @@ object InSearchOfTheMyrequeConstants {
     val AREA_NORTH_OF_BRIDGE = Area(Tile(3493, 3460), Tile(3515, 3431))
     val TILE_NEAR_TREE_SOUTH = Tile(3502, 3425)
 
-    // 3182, 3183,  100
     const val NAME_CURPILE = "Curpile Fyod"
     val TILE_CURPILE = Tile(3508, 3440)
-    val CONVERSATION_CURPILE_QUESTION = arrayOf(
-        "I've come to help the Myreque. I've brought weapons.", "Sani Piliu.",
-        "Ivan Strom.", "Veliaf Hurtz.", "Cyreg Paddlehorn.", "Drakan.", "Polmafi Ferdygris."
-    )
 
     const val NAME_HAROLD = "Harold Evans"
     val TILE_HAROLD = Tile(3504, 9833)
@@ -80,7 +75,6 @@ object InSearchOfTheMyrequeConstants {
     const val NAME_IVAN = "Ivan Strom"
     val TILE_IVAN = Tile(3512, 9843)
 
-    const val NAME_VELIAF = "Veliaf Hurtz"
     val TILE_VELIAF = Tile(3506, 9837)
     val CONVERSATION_VELIAF = arrayOf("Let's talk about the weapons.")
     val LEAVE_VELIAF = arrayOf("Ok, thanks.")
@@ -88,6 +82,9 @@ object InSearchOfTheMyrequeConstants {
     val TILE_BASE_ENTRANCE = Tile(3510, 3449)
     const val NAME_BASE_DOOR = "Wooden doors"
     const val ACTION_BASE_DOOR = "Open"
+
+    const val NAME_CITIZEN = "Meiyerditch citizen"
+    val TILE_CITIZEN = Tile(3596, 3194, 0)
 
     val AREA_BASE = Area(
         Tile(3466, 9849), Tile(3468, 9830), Tile(3491, 9797),
@@ -102,6 +99,9 @@ object InSearchOfTheMyrequeConstants {
      * Varpbits
      * 5 = started quest
      *
+     * 704
+     * After snails
+     * 101011111100
      */
 
     const val VARP_TALKING = 388

@@ -6,10 +6,7 @@ import com.open.quester.extensions.count
 import com.open.quester.models.QuestInformation
 import org.powbot.api.Condition
 import org.powbot.api.Tile
-import org.powbot.api.rt4.GroundItem
-import org.powbot.api.rt4.Inventory
-import org.powbot.api.rt4.Movement
-import org.powbot.api.rt4.Players
+import org.powbot.api.rt4.*
 import org.powbot.api.rt4.walking.FailureReason
 import org.powbot.api.rt4.walking.WebWalkingResult
 
@@ -27,27 +24,16 @@ open class PickupItemStep(
     }
 
     override fun run() {
-        // TODO Check if need to eat later
-
         val groundItem = getGroundItem.invoke()
-
         logger.info("Ground item $groundItem")
         if (groundItem != GroundItem.Nil) {
-            if (Inventory.isFull()){
+            if (Inventory.isFull()) {
                 Inventory.stream().name(*information.foodName).first().interact("Drop")
             }
-            if (groundItem.inViewport() && groundItem.reachable() && groundItem.interact(interaction)) {
-                val itemCount = Inventory.count(groundItem.name())
-                Condition.wait(Conditions.waitUntilItemEntersInventory(groundItem.name(), itemCount))
+            if (interaction == "Telegrab") {
+                telegrabItem(groundItem)
             } else {
-                val result = Movement.builder(groundItem.tile)
-                    .setRunMax(10)
-                    .setRunMax(50)
-                    .setWalkUntil { groundItem.inViewport() && groundItem.reachable() }
-                    .move()
-                if (result.failureReason == FailureReason.NoPath) {
-                    walkToDestination()
-                }
+                pickupItem(groundItem)
             }
         } else {
             if (destinationLocation.tile().floor == Players.local()
@@ -58,6 +44,39 @@ open class PickupItemStep(
                     getGroundItem.invoke() != GroundItem.Nil // TODO Check if need to eat later
                 }
             } else {
+                walkToDestination()
+            }
+        }
+    }
+
+    private fun telegrabItem(groundItem: GroundItem) {
+        if (Players.local().tile() != destinationLocation) {
+            Movement.builder(destinationLocation)
+                .setRunMax(10)
+                .setRunMax(50)
+                .move()
+        } else {
+            if (Magic.Spell.TELEKINETIC_GRAB.cast()) {
+                val itemName = groundItem.name()
+                val count = Inventory.count(itemName)
+                if (groundItem.click()) {
+                    Condition.wait({ Inventory.count(itemName) > count }, 1000, 8)
+                }
+            }
+        }
+    }
+
+    private fun pickupItem(groundItem: GroundItem) {
+        if (groundItem.inViewport() && groundItem.reachable() && groundItem.interact(interaction)) {
+            val itemCount = Inventory.count(groundItem.name())
+            Condition.wait(Conditions.waitUntilItemEntersInventory(groundItem.name(), itemCount))
+        } else {
+            val result = Movement.builder(groundItem.tile)
+                .setRunMax(10)
+                .setRunMax(50)
+                .setWalkUntil { groundItem.inViewport() && groundItem.reachable() }
+                .move()
+            if (result.failureReason == FailureReason.NoPath) {
                 walkToDestination()
             }
         }

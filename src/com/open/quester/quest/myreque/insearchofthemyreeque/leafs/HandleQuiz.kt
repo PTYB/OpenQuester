@@ -1,10 +1,10 @@
-package com.open.quester.quest.insearchofthemyreeque.leafs
+package com.open.quester.quest.myreque.insearchofthemyreeque.leafs
 
 import com.open.quester.common.base.SimpleNpcStep
 import com.open.quester.extensions.nearestNpc
 import com.open.quester.models.QuestInformation
-import com.open.quester.quest.insearchofthemyreeque.InSearchOfTheMyrequeConstants
-import com.open.quester.quest.insearchofthemyreeque.InSearchOfTheMyrequeConstants.NAME_CURPILE
+import com.open.quester.quest.myreque.insearchofthemyreeque.InSearchOfTheMyrequeConstants
+import com.open.quester.quest.myreque.insearchofthemyreeque.InSearchOfTheMyrequeConstants.NAME_CURPILE
 import org.powbot.api.Condition
 import org.powbot.api.rt4.*
 

@@ -199,7 +199,6 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
     }
 
     override fun handleMessage(me: MessageEvent) {
-
         if (me.message.contains("... then die and float to the surface.")) {
             poisoned = true
         }

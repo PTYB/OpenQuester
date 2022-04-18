@@ -65,6 +65,7 @@ class BankStep(
             logger.info("Condition ${it.chosenRequirement!!.name}")
         }
         logger.info("Updated calculated inventory")
+        logger.info("Missing items ${conditions.filter { it.chosenRequirement == null }.joinToString(",")}")
     }
 
     private fun addMagicReq(
