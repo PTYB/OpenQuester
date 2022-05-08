@@ -16,7 +16,7 @@ class ItemRequirementCondition(vararg itemRequirements: ItemRequirement) {
 
     init {
         if (itemRequirements.size == 1) {
-            chosenRequirement = itemRequirements.first()
+          //  chosenRequirement = itemRequirements.first()
         }
     }
 

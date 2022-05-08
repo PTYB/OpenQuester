@@ -4,7 +4,10 @@ import com.open.quester.models.ItemRequirementCondition
 import com.open.quester.models.SetupResult
 import com.open.quester.models.SkillRequirement
 import org.powbot.api.Tile
-import org.powbot.api.rt4.*
+import org.powbot.api.rt4.Bank
+import org.powbot.api.rt4.Inventory
+import org.powbot.api.rt4.Movement
+import org.powbot.api.rt4.Skills
 import org.powbot.mobile.script.ScriptManager
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -27,29 +30,36 @@ open class SetupTask(
                 ScriptManager.stop()
                 return SetupResult.FAILURE
             }
+        } else {
+            logger.info("Passed skill requirements")
         }
 
         var complete = SetupResult.UNKNOWN
         val remainingItems = getRemainingItems()
 
         if (remainingItems.isEmpty()) {
+            logger.info("No remaining items to check")
             complete = SetupResult.COMPLETE
         } else if (!checkedInventory) {
+            logger.info("Checking inventory for items")
             checkInventoryForItems(remainingItems)
         } else if (!checkedBank) {
             if (bankOpened()) {
+                logger.info("Checking bank for items")
                 checkBankItems(remainingItems)
             } else {
+                logger.info("Opening bank")
                 openBank()
             }
         } else {
+            val untradableItems = remainingItems.filter { ir -> ir.itemRequirements.none { !it.isUntradable } }.toList()
             complete = when {
                 remainingItems.isEmpty() -> {
                     logger.info("Successfully marked items")
                     SetupResult.COMPLETE
                 }
-                remainingItems.any { ir -> ir.itemRequirements.none { !it.isUntradable } } -> {
-                    logger.info("Untradable item detected missing")
+                untradableItems.isNotEmpty() -> {
+                    logger.info("Untradable item detected missing ${untradableItems.joinToString { it.itemRequirements[0].name }}")
                     SetupResult.FAILURE
                 }
                 else -> {
@@ -76,8 +86,13 @@ open class SetupTask(
         itemsToRetrieve.forEach { ir ->
             for (req in ir.itemRequirements) {
                 val count = bankMap.getOrDefault(req.name, -1)
-                if (count >= req.countRequired && req.hasItemRequirements) {
-                    logger.log(Level.INFO, "Has required items for " + req.name)
+                if (req.name.isEmpty()) {
+                    logger.log(Level.INFO, "Empty slot detected")
+                    ir.chosenRequirement = req
+                    req.hasRequirement = true
+                    break
+                } else if (count >= req.countRequired && req.hasItemRequirements) {
+                    logger.log(Level.INFO, "ST: Has required items for " + req.name)
                     ir.chosenRequirement = req
                     req.hasRequirement = true
                     break

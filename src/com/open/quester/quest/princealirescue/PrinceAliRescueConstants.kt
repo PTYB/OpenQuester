@@ -6,7 +6,7 @@ import org.powbot.api.Tile
 object PrinceAliRescueConstants {
 
     const val ITEM_SOFT_CLAY = "Soft clay"
-    const val ITEM_BALLS_OF_WOOOL = "Balls of wool"
+    const val ITEM_BALLS_OF_WOOOL = "Ball of wool"
     const val ITEM_YELLOW_DYE = "Yellow dye"
     const val ITEM_REDBERRIES = "Redberries"
     const val ITEM_ASHES = "Ashes"
@@ -27,11 +27,11 @@ object PrinceAliRescueConstants {
     val TILE_INSIDE_JAIL = Tile(3128, 3246)
     val AREA_PRISON = Area(Tile(3121, 3240), Tile(3125, 3243))
 
-    val NAME_PRISON_DOOR = "Prison Door"
+    val NAME_PRISON_DOOR = "Prison Gate"
 
     const val NAME_HASSAN = "Hassan"
     val TILE_HASSAN = Tile(3298, 3163)
-    val CONVERSATION_HASSAN = arrayOf("Can I help you? You must need some help here in the desert.", "Yes.")
+    val CONVERSATION_HASSAN = arrayOf("Is there anything I can help you with?", "Yes.")
 
     const val Name_OSMAN = "Osman"
     val TILE_OSMAN = Tile(3286, 3180)
@@ -40,22 +40,22 @@ object PrinceAliRescueConstants {
     const val NAME_NED = "Ned"
     val TILE_NED = Tile(3097, 3257)
     val CONVERSATION_NED = arrayOf(
-        "Ned, could you make other things from wool?", "How about some sort of a wig?",
-        "I have that now. Please, make me a wig.",
+        "Could you make other things apart from rope?", "How about some sort of wig?",
+        "I have them here. Please make me a wig.",
         "Okay, I better go find some things."
     )
 
     const val NAME_AGGIE = "Aggie"
     val TILE_AGGIE = Tile(3086, 3257)
     val CONVERSATION_AGGIE =
-        arrayOf("Could you think of a way to make skin paste?", "Yes please. Mix me some skin paste.")
+        arrayOf("Can you make skin paste?", "Yes please. Mix me some skin paste.")
 
     const val NAME_KELI = "Lady Keli"
     val TILE_KELI = Tile(3127, 3244)
     val CONVERSATION_KELI = arrayOf(
-        "Heard of you? You are famous in Gielinor!",
-        "What is your latest plan then?",
-        "Can you be sure they will not try to get him out?",
+        "Heard of you? You're famous in Gielinor!",
+        "What's your latest plan then?",
+        "How do you know someone won't try to free him?",
         "Could I see the key please?",
         "Could I touch the key for a moment please?"
     )
@@ -67,7 +67,7 @@ object PrinceAliRescueConstants {
 
     const val NAME_JOE = "Joe"
     val TILE_JOE = Tile(3124, 3245)
-    val CONVERSATION_JOE = arrayOf("I have some beer here, fancy one?")
+    val CONVERSATION_JOE = arrayOf("I have some beer here. Fancy one?")
 
     const val ID_DOOR = 2881
     val TILE_DOOR = Tile(32123, 3243)

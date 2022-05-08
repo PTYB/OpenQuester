@@ -14,6 +14,7 @@ import com.open.quester.models.QuestInformation
 import com.open.quester.models.QuestRequirements
 import com.open.quester.quest.Constants.BANK_AL_KHRAID
 import com.open.quester.quest.Constants.BANK_DRAYNOR
+import com.open.quester.quest.Constants.ITEM_COINS
 import com.open.quester.quest.princealirescue.PrinceAliRescueConstants.AREA_INSIDE_JAIL
 import com.open.quester.quest.princealirescue.PrinceAliRescueConstants.AREA_PRISON
 import com.open.quester.quest.princealirescue.PrinceAliRescueConstants.CONVERSATION_AGGIE
@@ -57,6 +58,7 @@ import com.open.quester.quest.princealirescue.PrinceAliRescueConstants.TILE_LEEL
 import com.open.quester.quest.princealirescue.PrinceAliRescueConstants.TILE_NED
 import com.open.quester.quest.princealirescue.PrinceAliRescueConstants.TILE_OSMAN
 import com.open.quester.quest.princealirescue.PrinceAliRescueConstants.TILE_PRINCE_ALI
+import org.powbot.api.Point
 import org.powbot.api.rt4.*
 
 class PrinceAliRescue(information: QuestInformation) : BaseQuest(information) {
@@ -77,7 +79,7 @@ class PrinceAliRescue(information: QuestInformation) : BaseQuest(information) {
     private val questItemsRequiredForRescueBank = listOf(
         ItemRequirementCondition(ITEM_WIG, true, 1),
         ItemRequirementCondition(ITEM_PASTE, true, 1),
-        ItemRequirementCondition(ITEM_BRONZE_KEY, true, 1),
+        ItemRequirementCondition(ITEM_COINS, true, 10),
         pinkSkirt,
         rope,
         beer,
@@ -124,9 +126,9 @@ class PrinceAliRescue(information: QuestInformation) : BaseQuest(information) {
             Name_OSMAN,
             TILE_OSMAN,
             CONVERSATION_OSMAN,
-            "Talking to Osman",
+            "Making bronze key",
             information,
-            shouldExecute = { Inventory.count(ITEM_KEY_PRINT) == 1 && Inventory.count(ITEM_SOFT_CLAY) == 1 }
+            shouldExecute = { Inventory.count(ITEM_KEY_PRINT) == 1 && Inventory.count(ITEM_BRONZE_BAR) == 1 }
         ),
         BankStep(questItemsRequiredForRescueBank, BANK_DRAYNOR, information, foodRequired = true),
         SimpleConversationStep(
@@ -162,16 +164,16 @@ class PrinceAliRescue(information: QuestInformation) : BaseQuest(information) {
 
     private val lettingHimGo = QuestTaskList(
         SimpleObjectStep(TILE_INSIDE_JAIL, arrayOf(), NAME_PRISON_DOOR, "Open",
-            {go :GameObject -> AREA_PRISON.contains(Players.local())}, "Visiting the prince", information,
-            { !AREA_INSIDE_JAIL.contains(Players.local())}),
+            { go: GameObject -> AREA_PRISON.contains(Players.local()) }, "Visiting the prince", information,
+            { !AREA_INSIDE_JAIL.contains(Players.local()) }),
         SimpleConversationStep(NAME_PRINCE_ALI, TILE_PRINCE_ALI, arrayOf(), "Making our princess", information,
-        shouldExecute = { AREA_INSIDE_JAIL.contains(Players.local())})
+            shouldExecute = { AREA_INSIDE_JAIL.contains(Players.local()) })
     )
 
     private val finishQuest = QuestTaskList(
         SimpleObjectStep(TILE_INSIDE_JAIL, arrayOf(), NAME_PRISON_DOOR, "Open",
-            {go :GameObject -> !AREA_PRISON.contains(Players.local())}, "Exiting prison", information,
-            { AREA_INSIDE_JAIL.contains(Players.local())}),
+            { !AREA_PRISON.contains(Players.local()) }, "Exiting prison", information,
+            { AREA_PRISON.contains(Players.local()) }),
         SimpleConversationStep(NAME_HASSAN, TILE_HASSAN, CONVERSATION_HASSAN, "Finishing quest", information)
     )
 

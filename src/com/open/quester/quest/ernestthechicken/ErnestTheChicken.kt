@@ -10,9 +10,6 @@ import com.open.quester.models.ItemRequirementCondition
 import com.open.quester.models.QuestInformation
 import com.open.quester.models.QuestRequirements
 import com.open.quester.quest.Constants.BANK_DRAYNOR
-import org.powbot.api.event.MessageEvent
-import org.powbot.api.rt4.*
-import org.powbot.mobile.script.ScriptManager
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.CONVERSATION_ODDENSTEIN
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.CONVERSATION_VERONICA
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.ITEM_FISH_FOOD
@@ -29,12 +26,15 @@ import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.NAME_OD
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.NAME_VERONICA
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_COMPOST_HEAP
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_FISH_FOOD
-import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_FOUTAIN
+import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_FOUNTAIN
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_GAUGE
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_ODDENSTEIN
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_POISON
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_SPADE
 import com.open.quester.quest.ernestthechicken.ErnestTheChickenConstants.TILE_VERONICA
+import org.powbot.api.event.MessageEvent
+import org.powbot.api.rt4.*
+import org.powbot.mobile.script.ScriptManager
 
 class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
 
@@ -98,8 +98,8 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
                 ) == 0
             },
             "Take",
-            "Picking up fish food"
-            , information)
+            "Picking up fish food", information
+        )
         val pickupPoison = PickupItemStep(
             TILE_POISON,
             { GroundItems.stream().name(ITEM_POISON).first() },
@@ -112,8 +112,8 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
                 ) == 0
             },
             "Take",
-            "Picking up poison"
-            , information)
+            "Picking up poison", information
+        )
         val makePoisonedFood = CombineItemStep(
             ITEM_FISH_FOOD, ITEM_POISON, "Making poisoned food",
             { !poisoned && Inventory.count(ITEM_FISH_FOOD) == 1 && Inventory.count(ITEM_POISON) == 1 }, false
@@ -121,8 +121,8 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
 
         val pickupSpade = PickupItemStep(
             TILE_SPADE, { GroundItems.stream().name(ITEM_SPADE).first() },
-            { Inventory.count(ITEM_SPADE) == 0 }, "Take", "Picking up spade"
-            , information)
+            { Inventory.count(ITEM_SPADE) == 0 }, "Take", "Picking up spade", information
+        )
 
         val getKey = SimpleObjectStep(
             TILE_COMPOST_HEAP,
@@ -137,13 +137,13 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
         )
 
         val usePoisonedFoodOnFountain = SimpleObjectStep(
-            TILE_FOUTAIN,
+            TILE_FOUNTAIN,
             arrayOf(),
             { Objects.stream().name(NAME_FOUNTAIN).first() },
             { go: GameObject ->
                 InteractionsHelper.useItemOnInteractive(
                     Inventory.stream().name(ITEM_POISONED_FISH_FOOD).first(), go
-                )
+                ) && poisoned
             },
             { go: GameObject ->
                 val result = !go.valid()
@@ -157,7 +157,7 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
         )
 
         val grabGauge = SimpleObjectStep(
-            TILE_FOUTAIN,
+            TILE_FOUNTAIN,
             arrayOf(),
             NAME_FOUNTAIN,
             "Search",
@@ -170,8 +170,8 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
         val grabTube = PickupItemStep(
             TILE_GAUGE, { GroundItems.stream().name(ITEM_RUBBER_TUBE).first() },
             { Inventory.count(ITEM_RUBBER_TUBE) == 0 && Inventory.count(ITEM_KEY) == 1 },
-            "Take", "Grabbing tube"
-            , information)
+            "Take", "Grabbing tube", information
+        )
 
         return arrayOf(
             pickupFishFood,
@@ -199,7 +199,7 @@ class ErnestTheChicken(information: QuestInformation) : BaseQuest(information) {
     }
 
     override fun handleMessage(me: MessageEvent) {
-        if (me.message.contains("... then die and float to the surface.")) {
+        if (me.message.contains("die and float to the surface.", true)) {
             poisoned = true
         }
     }

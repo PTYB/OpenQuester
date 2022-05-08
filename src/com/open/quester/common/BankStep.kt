@@ -8,6 +8,7 @@ import com.open.quester.models.ItemRequirementCondition
 import com.open.quester.models.QuestInformation
 import com.open.quester.models.SetupResult
 import com.open.quester.tasks.SetupTask
+import org.powbot.api.Notifications
 import org.powbot.api.Tile
 import org.powbot.api.requirement.RunePowerRequirement
 import org.powbot.api.rt4.*
@@ -53,10 +54,13 @@ class BankStep(
             }.sumOf { if (it.chosenRequirement!!.stackable) 1 else it.chosenRequirement!!.countRequired }
             val foodToWithdraw = 28 - usedSlots
             logger.info("Food required $foodToWithdraw")
-            updatedConditions.add(ItemRequirementCondition(ItemRequirement(foodName, true, foodToWithdraw)))
+            val requirement = ItemRequirement(foodName, true, foodToWithdraw)
+            val itemRequirementCondition = ItemRequirementCondition(requirement)
+            itemRequirementCondition.chosenRequirement = requirement
+            updatedConditions.add(itemRequirementCondition)
         }
         itemsToKeep = calculatedItemsToKeep.toList().toTypedArray()
-        conditions = updatedConditions.filter { !it.chosenRequirement!!.name.isNullOrEmpty() }.toList()
+        conditions = updatedConditions.filter { it.chosenRequirement!!.name.isNotEmpty() }.toList()
 
         itemsToKeep.forEach {
             logger.info("Items to keep $it")
@@ -134,11 +138,16 @@ class BankStep(
             requirements.forEach { r ->
                 val chosenItem = Inventory.stream().name(r.name).count(true)
                 if (chosenItem >= r.countRequired) {
-                    logger.info("Has required item ${r.name}")
+                    logger.info("BS: Has required item ${r.name}")
                     return@forEach
                 }
-
-                Bank.withdraw(r.name, r.countRequired - chosenItem.toInt())
+                val missingCount = r.countRequired - chosenItem.toInt()
+                if (Bank.stream().name(r.name).count(true) < missingCount) {
+                    logger.info("Missing $missingCount ${r.name}")
+                    Notifications.showNotification("Missing $missingCount ${r.name}")
+                    ScriptManager.stop()
+                }
+                Bank.withdraw(r.name, missingCount)
             }
         }
     }
@@ -195,5 +204,4 @@ class BankStep(
     override fun stepName(): String {
         return "Banking for items"
     }
-
 }

@@ -53,7 +53,7 @@ object ErnestTheChickenConstants {
 
     val ID_FOUNTAIN = 153
     const val NAME_FOUNTAIN = "Fountain"
-    val TILE_FOUTAIN = Tile(3087, 3337, 0)
+    val TILE_FOUNTAIN = Tile(3087, 3337, 0)
 
     val TILE_SPADE = Tile(3120, 3359, 0)
 

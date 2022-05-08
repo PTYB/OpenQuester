@@ -51,7 +51,7 @@ import java.util.logging.Logger
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.9",
+    version = "1.0.10",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
@@ -134,6 +134,7 @@ class Script : AbstractScript() {
 
         when (state) {
             QuestRunnerState.SETUP -> {
+                logger.info("--- Setup ---")
                 when (setupTask.complete()) {
                     SetupResult.INCOMPLETE -> state = QuestRunnerState.GRAND_EXCHANGE
                     SetupResult.COMPLETE -> state = QuestRunnerState.QUESTING
@@ -142,6 +143,7 @@ class Script : AbstractScript() {
                 }
             }
             QuestRunnerState.GRAND_EXCHANGE -> {
+                logger.info("--- Grand exchange ---")
                 when (grandExchangeTask.complete()) {
                     SetupResult.UNKNOWN -> {}// DO Nothing
                     SetupResult.INCOMPLETE -> {} // TODO Might not need state
