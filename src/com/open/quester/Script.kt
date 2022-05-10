@@ -8,6 +8,7 @@ import com.open.quester.models.QuestInformation
 import com.open.quester.models.QuestRunnerState
 import com.open.quester.models.SetupResult
 import com.open.quester.quest.daddyshome.DaddysHome
+import com.open.quester.quest.demonslayer.DemonSlayer
 import com.open.quester.quest.doricsquest.DoricsQuest
 import com.open.quester.quest.druidicritual.DruidicRitual
 import com.open.quester.quest.entertheabyss.EnterTheAbyss
@@ -51,7 +52,7 @@ import java.util.logging.Logger
 @ScriptManifest(
     name = "Open Quester",
     description = "Finishes Quests",
-    version = "1.0.10",
+    version = "1.0.11",
     markdownFileName = "openquester.md",
     category = ScriptCategory.Quests,
 )
@@ -59,9 +60,9 @@ import java.util.logging.Logger
     [
         ScriptConfiguration(
             "Quest Name", "Name of the quest you want to run", OptionType.STRING,
-            "Dorics Quest",
+            "Demon Slayer",
             [//"Darkness of Hawllowvale",
-                "Dorics Quest", "Druidic Ritual", "Enter the Abyss", "Ernest the Chicken",
+                "Demon Slayer", "Dorics Quest", "Druidic Ritual", "Enter the Abyss", "Ernest the Chicken",
                 "Gertrudes Cat", "Lost City",
                 "Hazeel Cult", //"In aid of the Myreque",
                 "In search of the Myreque", "Natural History", "Nature Spirit",
@@ -173,7 +174,7 @@ class Script : AbstractScript() {
             COOKS_ASSISTANT -> TODO()
             DADDYS_HOME -> DaddysHome(questInformation)
             DARKNESS_OF_HALLOWVALE -> DarknessOfHallowvale(questInformation)
-            DEMON_SLAYER -> TODO()
+            DEMON_SLAYER -> DemonSlayer(questInformation)
             THE_DIG_SITE -> TODO()
             DORICS_QUEST -> DoricsQuest(questInformation)
             DRUIDIC_RITUAL -> DruidicRitual(questInformation)
